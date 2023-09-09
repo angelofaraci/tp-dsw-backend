@@ -9,6 +9,6 @@ export class Review {
         public redaction_date: Date,
         public edition_date: Date | null,
         public state: string,
-        public id = crypto.randomUUID()
+        public id :string
     ){}
 }
