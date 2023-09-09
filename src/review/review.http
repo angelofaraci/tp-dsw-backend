@@ -1,0 +1,22 @@
+### obtener todas las reviews
+GET http://localhost:3000/api/
+
+
+### obtener una review
+GET http://localhost:3000/api/
+
+### crear una review
+POST http://localhost:3000/api/
+Content-Type: application/json
+
+
+
+### modificar una review
+PUT http://localhost:3000/api/
+Content-Type: application/json
+
+
+
+
+### borrar una review
+DELETE http://localhost:3000/api/
