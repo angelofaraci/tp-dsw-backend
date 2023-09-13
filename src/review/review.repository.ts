@@ -8,7 +8,7 @@ const reviews = [
     false,
     new Date(2023, 0o6, 0o6),
     null,
-    'jkasldjlaskjdla',
+    'Public',
     '1' 
     )
 ];
@@ -23,6 +23,7 @@ export class ReviewRepository implements Repository<Review>{
    }
 
    public add(item: Review): Review | undefined {
+      reviews.push(item)
       return item
    }
 

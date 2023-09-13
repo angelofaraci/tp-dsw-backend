@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { sanitizeReviewInput, findAll, findOne, add, update, remove } from './review.controller.js'
 
-export const characterRouter = Router()
+export const reviewRouter = Router()
 
-characterRouter.get('/', findAll)
-characterRouter.get('/:id', findOne)
-characterRouter.post('/', sanitizeReviewInput, add)
-characterRouter.put('/:id', sanitizeReviewInput, update)
-characterRouter.patch('/:id', sanitizeReviewInput, update)
-characterRouter.delete('/:id', remove)
+reviewRouter.get('/', findAll)
+reviewRouter.get('/:id', findOne)
+reviewRouter.post('/', sanitizeReviewInput, add)
+reviewRouter.put('/:id', sanitizeReviewInput, update)
+reviewRouter.patch('/:id', sanitizeReviewInput, update)
+reviewRouter.delete('/:id', remove)

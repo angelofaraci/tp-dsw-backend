@@ -1,22 +1,37 @@
 ### obtener todas las reviews
-GET http://localhost:3000/api/
+GET http://localhost:3000/api/reviews
 
 
 ### obtener una review
-GET http://localhost:3000/api/
+GET http://localhost:3000/api/reviews/1
 
 ### crear una review
-POST http://localhost:3000/api/
+POST http://localhost:3000/api/reviews
 Content-Type: application/json
 
-
+{
+    "rating": "100",
+    "body": "Juegardo",
+    "spoiler_check": "true",
+    "redaction_date": "2023-06-21T04:20:00.000Z",
+    "edition_date": "null",
+    "state": "Public",
+    "id": "2"
+}
 
 ### modificar una review
-PUT http://localhost:3000/api/
+PUT http://localhost:3000/api/reviews/1
 Content-Type: application/json
 
-
-
+{
+      "rating": 73,
+      "body": "No tan Juegardo",
+      "spoiler_check": false,
+      "redaction_date": "2023-07-06T03:00:00.000Z",
+      "edition_date": "ahora",
+      "state": "Public",
+      "id": "1"
+}
 
 ### borrar una review
-DELETE http://localhost:3000/api/
+DELETE http://localhost:3000/api/reviews/2
