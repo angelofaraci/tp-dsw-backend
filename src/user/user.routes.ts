@@ -1,14 +1,14 @@
 import { Router } from 'express'
-// import { sanitizeReviewInput, findAll, findOne, add, update, remove } from './review.controller.js'
+import { User } from './user.entity.js'
+
 
 export const userRouter = Router()
 
+userRouter.post('/', async (req, res) => {
+    const object = req.body
+    const newUser = new User(object)
+    await newUser.save()
+    //const token = jwt.sign({_id: newUser._id}, 'secretKey')
+   //res.status(201).json({token})
+})
 
-
-//userRouter.get('/', findAll)
-// userRouter.get('/:id', findOne)
-// userRouter.post('/', sanitizeuserInput, add)
-// userRouter.put('/:id', sanitizeuserInput, update)
-// userRouter.delete('/:id', remove)
-
-module.exports = userRouter;
