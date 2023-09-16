@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import { reviewRouter } from './review/review.routes.js';
 import { gameRouter } from './game/game.routes.js';
 import { userRouter } from './user/user.routes.js';
