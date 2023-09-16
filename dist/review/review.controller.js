@@ -11,11 +11,6 @@ function sanitizeReviewInput(req, res, next) {
         state: req.body.state,
         id: req.body.id //REVISAR!!!!!!!!!!!!!!
     };
-    // Object.keys(req.body.sanitizedInput).forEach((key) => {           ESTO SE USA
-    //     if (req.body.sanitizedInput[key] === undefined) {             PARA EL PATCH
-    //       delete req.body.sanitizedInput[key]
-    //     }
-    //   })
     next();
 }
 function findAll(req, res) {

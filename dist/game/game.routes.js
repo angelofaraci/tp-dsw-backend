@@ -5,6 +5,5 @@ gameRouter.get('/', findAll);
 gameRouter.get('/:id', findOne);
 gameRouter.post('/', sanitizeReviewInput, add);
 gameRouter.put('/:id', sanitizeReviewInput, update);
-gameRouter.patch('/:id', sanitizeReviewInput, update);
 gameRouter.delete('/:id', remove);
 //# sourceMappingURL=game.routes.js.map

@@ -5,6 +5,5 @@ reviewRouter.get('/', findAll);
 reviewRouter.get('/:id', findOne);
 reviewRouter.post('/', sanitizeReviewInput, add);
 reviewRouter.put('/:id', sanitizeReviewInput, update);
-reviewRouter.patch('/:id', sanitizeReviewInput, update);
 reviewRouter.delete('/:id', remove);
 //# sourceMappingURL=review.routes.js.map
