@@ -56,5 +56,5 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken, example }
+export { sanitizeUserInput, add, getOne, verifyToken }
 

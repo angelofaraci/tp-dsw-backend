@@ -3,5 +3,5 @@ import { sanitizeUserInput, add, getOne, verifyToken } from './user.controller.j
 
 export const userRouter = Router()
 
-userRouter.post('/', sanitizeUserInput, add)
+userRouter.post('/signup', sanitizeUserInput, add)
 userRouter.post('/login', sanitizeUserInput, getOne)

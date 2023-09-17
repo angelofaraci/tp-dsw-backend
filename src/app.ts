@@ -1,5 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
+
 import { reviewRouter } from './review/review.routes.js'
 import { gameRouter } from './game/game.routes.js'
 import { userRouter } from './user/user.routes.js'
@@ -16,6 +18,7 @@ mongoose.connect('mongodb://localhost/tp-database', {
     .catch(err => console.log(err))
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 
 
