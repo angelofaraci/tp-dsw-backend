@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { sanitizeUserInput, add, getOne } from './user.controller.js';
+import { sanitizeUserInput, add, getOne, verifyToken } from './user.controller.js';
 
 export const userRouter = Router()
 

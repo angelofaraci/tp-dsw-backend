@@ -27,7 +27,7 @@ async function add (req: Request, res: Response, next: NextFunction) {
     res.status(201).json({token})
 }
 
-async function getOne (req: Request, res: Response, next: NextFunction){
+async function getOne (req: Request, res: Response){
 
     const { email, password } = req.body.sanitizedInput
     const userLogIn = await User.findOne({email: email})
@@ -39,4 +39,22 @@ async function getOne (req: Request, res: Response, next: NextFunction){
 
 
 
-export { sanitizeUserInput, add, getOne }
+
+function verifyToken(req: Request, res: Response, next: NextFunction) {
+    if (!req.headers.authorization){
+        return res.status(401).send('Unauthorized request')
+    }
+    const token = req.headers.authorization.split(' ')[1]
+    if (token === null){
+        return res.status(401).send('Unauthorized request')
+    }
+
+    const payload: any = jwt.verify(token, 'secretKey')
+    
+    res.locals.userId = payload._id
+    
+    next()
+}
+
+export { sanitizeUserInput, add, getOne, verifyToken, example }
+
