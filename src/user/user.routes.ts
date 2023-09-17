@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { sanitizeGameInput, add } from './user.controller.js';
+import { sanitizeUserInput, add, getOne } from './user.controller.js';
 
 export const userRouter = Router()
 
-userRouter.post('/', sanitizeGameInput, add)
-
+userRouter.post('/', sanitizeUserInput, add)
+userRouter.post('/login', sanitizeUserInput, getOne)

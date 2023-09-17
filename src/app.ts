@@ -12,7 +12,7 @@ import { userRouter } from './user/user.routes.js'
 mongoose.connect('mongodb://localhost/tp-database', {
 
 })
-    .then(db => console.log('database is connected'))
+    .then(db => console.log('Database is Connected'))
     .catch(err => console.log(err))
 
 const app = express()
