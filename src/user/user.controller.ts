@@ -56,5 +56,13 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken }
+
+async function getUserData(req: Request, res: Response){
+    const userData = User.findOne({ _id: res.locals.userId })
+    res.json(userData)
+}
+
+
+
+export { sanitizeUserInput, add, getOne, verifyToken, getUserData }
 
