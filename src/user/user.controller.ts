@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import { User } from './user.entity.js';
+import mongoose from 'mongoose';
+import { log } from 'console';
 
 function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
     req.body.sanitizedInput = {
@@ -38,7 +40,15 @@ async function getOne (req: Request, res: Response){
 }
 
 
+async function getUserData(req:Request, res:Response, next: NextFunction){
+    // const id = res.locals.userId
+    // const idBuscado = `ObjectId("${id}")`
+    // const userData = await User.findOne({_id: idBuscado})
+    // console.log(userData)
+    
+    
 
+}
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
     if (!req.headers.authorization){
@@ -55,14 +65,6 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
     
     next()
 }
-
-
-async function getUserData(req: Request, res: Response){
-    const userData = User.findOne({ _id: res.locals.userId })
-    res.json(userData)
-}
-
-
 
 export { sanitizeUserInput, add, getOne, verifyToken, getUserData }
 
