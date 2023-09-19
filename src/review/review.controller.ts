@@ -35,7 +35,7 @@ async function add(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
     const review = await repository.add(input);
     if (!review){
-      return res.status(418).send({message: 'Review already exist'})
+      return res.status(400).send({message: 'Review already exist'})
     }
     res.status(201).send({ message: 'Review created', data: review })
 }

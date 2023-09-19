@@ -30,4 +30,4 @@ Content-Type: application/json
 }
 
 ### borrar una review
-DELETE http://localhost:3000/api/reviews/2
+DELETE http://localhost:3000/api/reviews/1

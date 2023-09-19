@@ -25,17 +25,6 @@ export class Company {
     ){}
 };
 
-export class User {
-    constructor(
-        public id = crypto.randomUUID(),
-        public name_user: string,
-        public score: number,
-        public email: string,
-        public phone: string[],
-        public level: number
-    ){}
-};
-
 export class Admin {
     constructor(
         public id = crypto.randomUUID(),
@@ -58,19 +47,6 @@ export class Interaction {
         public state:number
     ){}
 };
-
-export class Review {
-    constructor(
-        public id = crypto.randomUUID(),
-        public rating: number,
-        public body: string,
-        public spoiler_check: boolean,
-        public redaction_date: Date,
-        public edition_date: Date,
-        public state: string
-
-    ){}
-}
 
 export class Category {
     constructor(

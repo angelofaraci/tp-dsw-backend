@@ -1,0 +1,15 @@
+### crear una review
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "id": "1",
+    "username": "Nahuel",
+    "score": 1,
+    "email": "nahuelssjl@gmail.com",
+    "password": "asdasd",
+    "phone": "123123",
+    "level": 1
+}
+
+
