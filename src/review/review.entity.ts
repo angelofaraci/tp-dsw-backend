@@ -1,14 +1,15 @@
-import crypto from 'node:crypto'
+import { Schema, model } from "mongoose";
 
-export class Review {
-    constructor(
+const reviewSchema = new Schema({
         
-        public rating: number,
-        public body: string,
-        public spoiler_check: boolean,
-        public redaction_date: Date,
-        public edition_date: Date | null,
-        public state: string,
-        public id :string
-    ){}
-}
+        id :String,
+        rating: Number,
+        body: String,
+        spoiler_check: Boolean,
+        state: String
+        
+}, {
+    timestamps:true
+});
+
+export const Review = model('Review', reviewSchema)

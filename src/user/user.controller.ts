@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import { User } from './user.entity.js';
 import mongoose from 'mongoose';
 import { log } from 'console';
+import { UserRepository } from './user.repository.js';
+
+const repository = new UserRepository
 
 function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
     req.body.sanitizedInput = {
@@ -23,19 +26,17 @@ function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
 async function add (req: Request, res: Response, next: NextFunction) {
  
     const input = req.body.sanitizedInput
-    const newUser = new User(input)
-    await newUser.save()
-    const token = jwt.sign({_id: newUser._id}, 'secretKey')
+    const token = repository.add(input)
     res.status(201).json({token})
 }
 
 async function getOne (req: Request, res: Response){
 
-    const { email, password } = req.body.sanitizedInput
-    const userLogIn = await User.findOne({email: email})
-    if (!userLogIn) return res.status(401).send("Wrong Email")
-    if (userLogIn.password !== password) return res.status(401).send("Wrong Password")
-    const token = jwt.sign({_id: userLogIn._id}, 'secretKey')
+    const email = req.params.email
+    const password  = req.params.password
+    const token = repository.getOne(email, password)
+    if (await token === 1) return res.status(401).send("Wrong Email")
+    if (await token === 2) return res.status(401).send("Wrong Password")
     res.status(200).json({token})
 }
 

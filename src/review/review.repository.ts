@@ -1,47 +1,30 @@
-import { Repository } from "../shared/repository.js";
+import mongoose from "mongoose";
 import { Review } from "./review.entity.js";
 
-const reviews = [
-   new Review (
-    83,
-    'lasjdklaskldj',
-    false,
-    new Date(2023, 0o6, 0o6),
-    null,
-    'Public',
-    '1' 
-    )
-];
 
-export class ReviewRepository implements Repository<Review>{
-   public findAll(): Review[] | undefined {
-      return reviews
+export class ReviewRepository {
+   public async findAll(): Promise<{}[] | undefined> {
+      return await Review.find()
    }
    
-   public findOne(item: { id: string; }): Review | undefined {
-      return reviews.find((reviews) => reviews.id = item.id)
+   public async findOne(item: { id: string; }): Promise<{}| null | undefined> {
+      return await Review.findOne({id: item.id})
    }
 
-   public add(item: Review): Review | undefined {
-      reviews.push(item)
+   public async add(item:any): Promise <{} | undefined> {
+      const newReview = new Review(item)
+      if (await Review.findOne({id: item.id})){
+         return undefined
+      }
+      await newReview.save(item)
       return item
    }
-
-   public update(item: Review): Review | undefined {
-      const reviewIdx = reviews.findIndex((reviews) => reviews.id === item.id)
-      if (reviewIdx !== -1) {
-         reviews[reviewIdx]={...reviews[reviewIdx], ...item}
-      }
-      return reviews[reviewIdx]  
+   public async update(item: {}): Promise <{} | null | undefined> {
+      return await Review.findOneAndUpdate(item)
    }
 
-   public delete(item: { id: string; }): Review | undefined {
-      const reviewIdx = reviews.findIndex((reviews) => reviews.id === item.id)
-      if (reviewIdx !== -1) {
-         const deletedReviews = reviews[reviewIdx]
-         reviews.splice(reviewIdx, 1)
-         return deletedReviews
-      }
+   public async remove(item:{}): Promise<{} | null | undefined>{
+      return await Review.findOneAndDelete(item)
    }
 }
 
