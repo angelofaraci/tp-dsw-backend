@@ -42,8 +42,7 @@ async function getOne(req: Request, res: Response){
 
 
 async function getUserData(req:Request, res:Response, next: NextFunction){
-    const id = res.locals.userId
-    const userData = await repository.recoverOne(id)
+    const userData = await repository.recoverOne(res.locals.userId)
     return res.status(200).json({userData})
 }
 
@@ -57,9 +56,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
     }
 
     const payload: any = jwt.verify(token, 'secretKey')
-    
     res.locals.userId = payload._id
-    
     next()
 }
 
