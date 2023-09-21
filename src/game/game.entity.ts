@@ -1,12 +1,20 @@
-export class Game {
-    constructor(
-        public id : string,
-        public name: string,
-        public description: string,
-        public cover: string,
-        public release_date: Date,
-        public website: string,
-        public socials : string[],
-        public rating : number,
-    ){}
-}
+import { Schema, model } from "mongoose";
+
+const gameSchema = new Schema({
+
+    id : String,
+    name: String,
+    description: String,
+    cover: String,
+    release_date: Date,
+    website: String,
+    socials : [String],
+    rating : Number,
+
+},{
+    timestamps: true
+});
+
+export const Game = model('Game', gameSchema)
+
+    

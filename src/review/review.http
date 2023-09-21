@@ -14,7 +14,7 @@ Content-Type: application/json
     "body": "Juegardo",
     "spoiler_check": "true",
     "state": "Public",
-    "id": "2"
+    "id": "1"
 }
 
 ### modificar una review

@@ -1,8 +1,6 @@
-import { Repository } from "../shared/repository.js";
 import { Game } from "./game.entity.js";
 
-const games = [
-   new Game (
+/* 
     '1',
     'The Legend Of Zelda: Breath Of The Wild',
     'Hey! Listen!',
@@ -11,37 +9,29 @@ const games = [
     'https://www.nintendo.com/es-ar/store/products/the-legend-of-zelda-breath-of-the-wild-switch/',
     ['https://twitter.com/ZeldaOfficialJP'],
     83
-    )
-];
-
-export class GameRepository implements Repository<Game>{
-   public findAll(): Game[] | undefined {
-      return games
+ */
+export class GameRepository{
+   public async findAll(): Promise<{} | undefined> {
+      return await Game.find()
    }
    
-   public findOne(item: { id: string; }): Game | undefined {
-      return games.find((games) => games.id = item.id)
+   public async findOne(item: {id:string} ): Promise < {} | null | undefined> {
+      return await Game.findOne({id: item.id})
    }
 
-   public add(item: Game): Game | undefined {
-    games.push(item)
+   public async add(item: {}): Promise < {} | undefined> {
+    const newGame = new Game(item)
+      if (await Game.findOne({id: newGame.id})) {return undefined}
+    await newGame.save()
+    return item
+   }
+
+   public async update(item: {}): Promise <{} | null> {
+      await Game.findOneAndUpdate(item) 
       return item
    }
 
-   public update(item: Game): Game | undefined {
-      const gameIdx = games.findIndex((games) => games.id === item.id)
-      if (gameIdx !== -1) {
-        games[gameIdx]={...games[gameIdx], ...item}
-      }
-      return games[gameIdx]  
-   }
-
-   public delete(item: { id: string; }): Game | undefined {
-      const reviewIdx = games.findIndex((reviews) => reviews.id === item.id)
-      if (reviewIdx !== -1) {
-         const deletedReviews = games[reviewIdx]
-         games.splice(reviewIdx, 1)
-         return deletedReviews
-      }
+   public async delete(item: { id: string; }): Promise <{} | null | undefined> {
+      return await Game.findOneAndDelete(item)
    }
 }

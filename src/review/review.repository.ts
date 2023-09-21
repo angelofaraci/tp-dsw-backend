@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Review } from "./review.entity.js";
 
 
@@ -7,7 +6,7 @@ export class ReviewRepository {
       return await Review.find()
    }
    
-   public async findOne(item: { id: string; }): Promise<{}| null | undefined> {
+   public async findOne(item: { id: string }): Promise<{}| null | undefined> {
       return await Review.findOne({id: item.id})
    }
 
@@ -16,11 +15,12 @@ export class ReviewRepository {
       if (await Review.findOne({id: item.id})){
          return undefined
       }
-      await newReview.save(item)
+      await newReview.save()
       return item
    }
-   public async update(item: {}): Promise <{} | null | undefined> {
-      return await Review.findOneAndUpdate(item)
+   public async update(item: {}): Promise <{} | null> {
+      await Review.findOneAndUpdate(item)
+      return item
    }
 
    public async remove(item:{}): Promise<{} | null | undefined>{

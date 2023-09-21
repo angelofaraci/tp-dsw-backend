@@ -10,7 +10,7 @@ POST http://localhost:3000/api/games
 Content-Type: application/json
 
 {
-    "id": "2",
+    "id": "1",
     "name": "Undertale",
     "description": "sus",
     "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/391540/capsule_616x353.jpg?t=1579096091",
@@ -20,7 +20,8 @@ Content-Type: application/json
       "https://twitter.com/Undertale"
     ],
     "rating": 100
-  }
+}
+
 
 ### modificar una review
 PUT http://localhost:3000/api/games/2

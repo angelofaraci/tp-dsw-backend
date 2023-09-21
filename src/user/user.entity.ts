@@ -18,14 +18,3 @@ import { Schema, model } from "mongoose";
 
 export const User = model('User', userSchema)
 
-
-// {
-// 	"email": "example@gmail.com",
-// 	"password": "password",
-// 	"username": "username",
-// 	"id": "1",
-// 	"score": 0,
-// 	"level": 0,
-// 	"phone": ""
-// }
-

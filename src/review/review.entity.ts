@@ -2,11 +2,11 @@ import { Schema, model } from "mongoose";
 
 const reviewSchema = new Schema({
         
-        id :String,
-        rating: Number,
-        body: String,
-        spoiler_check: Boolean,
-        state: String
+    id :String,
+    rating: Number,
+    body: String,
+    spoiler_check: Boolean,
+    state: String
         
 }, {
     timestamps:true

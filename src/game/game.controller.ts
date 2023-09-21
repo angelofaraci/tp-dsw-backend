@@ -21,41 +21,32 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 }
 
 
-function findAll(req: Request, res: Response) {
-    res.json({ data: repository.findAll() })
+async function  findAll(req: Request, res: Response) {
+    res.json({ data: await repository.findAll() })
 }
 
 
-function findOne(req: Request, res: Response) {
+async function findOne(req: Request, res: Response) {
     const id = req.params.id
-    const game = repository.findOne({ id })
+    const game = await repository.findOne({id})
     if (!game) {
       return res.status(404).send({ message: 'Game not found' })
     }
     res.json({ data: game })
 }
 
-function add(req: Request, res: Response) {
+async function add(req: Request, res: Response) {
     const input = req.body.sanitizedInput
-  
-    const gameInput = new Game(
-      input.id, //REVISAR!!!!!!!!!!!! 
-      input.name,
-      input.description,
-      input.cover,
-      input.release_date,
-      input.website,
-      input.socials,
-      input.rating 
-    )
-  
-    const game = repository.add(gameInput)
+    const game = await repository.add(input)
+    if (!game) {
+      return res.status(400).send({message: 'Game already exists'})
+    }
     return res.status(201).send({ message: 'Game created', data: game })
 }
 
-function update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     req.body.sanitizedInput.id = req.params.id
-    const game = repository.update(req.body.sanitizedInput)
+    const game = await repository.update(req.body.sanitizedInput)
   
     if (!game) {
       return res.status(404).send({ message: 'Game not found' })
@@ -64,9 +55,9 @@ function update(req: Request, res: Response) {
     return res.status(200).send({ message: 'Game updated successfully', data: game })
 }
 
-function remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     const id = req.params.id
-    const game = repository.delete({ id })
+    const game = await repository.delete({id})
   
     if (!game) {
       res.status(404).send({ message: 'Game not found' })
