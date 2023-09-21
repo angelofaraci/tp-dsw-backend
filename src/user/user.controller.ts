@@ -42,13 +42,9 @@ async function getOne(req: Request, res: Response){
 
 
 async function getUserData(req:Request, res:Response, next: NextFunction){
-    // const id = res.locals.userId
-    // const idBuscado = `ObjectId("${id}")`
-    // const userData = await User.findOne({_id: idBuscado})
-    // console.log(userData)
-    
-    
-
+    const id = res.locals.userId
+    const userData = await repository.recoverOne(id)
+    return res.status(200).json({userData})
 }
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
