@@ -1,15 +1,21 @@
 import { Schema, model } from "mongoose";
+import { getModelForClass, prop, ReturnModelType } from "@typegoose/typegoose"
 
-const reviewSchema = new Schema({
-        
-    id :String,
-    rating: Number,
-    body: String,
-    spoiler_check: Boolean,
-    state: String
-        
-}, {
-    timestamps:true
-});
+class ReviewClass{
+    @prop({type:String, required:true})
+    public id!:string;
+    @prop({type:Number})
+    public rating?:number;
+    @prop({type:String, required:true})
+    public body!:string;
+    @prop({type:Boolean, required:true})
+    public spoiler_check!:boolean;
+    @prop({type:String, required:true})
+    public state!:string;
 
-export const Review = model('Review', reviewSchema)
+};
+
+const Review = getModelForClass(ReviewClass, {schemaOptions:{
+    timestamps: true
+}});
+export { Review, ReviewClass} ;
