@@ -35,9 +35,11 @@ async function getOne(req: Request, res: Response){
     const email = req.body.email
     const password  = req.body.password
     const token = await repository.getOne(email, password)
-    if ( token === 1) return res.status(401).send({message: "Wrong Email", data:token})
-    if ( token === 2) return res.status(401).send({message: "Wrong Password", data:token})
-    res.status(200).json({token})
+    if ( token === 'Wrong Email' || token === 'Wrong Password') {
+        const error = token
+        return res.status(401).send({error})
+    }
+    else {res.status(200).json({token})}
 }
 
 
