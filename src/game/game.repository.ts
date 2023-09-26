@@ -1,4 +1,4 @@
-import { Game } from "./game.entity.js";
+import { Game, GameClass } from "./game.entity.js";
 
 /* 
     '1',
@@ -11,27 +11,27 @@ import { Game } from "./game.entity.js";
     83
  */
 export class GameRepository{
-   public async findAll(): Promise<{} | undefined> {
+   public async findAll(): Promise< GameClass[] | undefined> {
       return await Game.find()
    }
    
-   public async findOne(item: {id:string} ): Promise < {} | null | undefined> {
-      return await Game.findOne({id: item.id})
+   public async findOne(item: Partial<GameClass> ): Promise < GameClass | undefined> {
+      return await Game.findOne({id: item.id}) || undefined
    }
 
-   public async add(item: {}): Promise < {} | undefined> {
+   public async add(item: GameClass): Promise < GameClass | undefined> {
     const newGame = new Game(item)
       if (await Game.findOne({id: newGame.id})) {return undefined}
     await newGame.save()
     return item
    }
 
-   public async update(item: {}): Promise <{} | null> {
-      await Game.findOneAndUpdate(item) 
-      return item
+   public async update(item: GameClass): Promise <GameClass | undefined> {
+      const result = await Game.findOneAndUpdate(item) 
+      return result || undefined
    }
 
-   public async delete(item: { id: string; }): Promise <{} | null | undefined> {
-      return await Game.findOneAndDelete(item)
+   public async delete(item: Partial<GameClass>): Promise <GameClass  | undefined> {
+      return await Game.findOneAndDelete(item) || undefined
    }
 }

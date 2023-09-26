@@ -1,20 +1,28 @@
-import { Schema, model } from "mongoose";
+import { prop, getModelForClass} from "@typegoose/typegoose"
 
-const gameSchema = new Schema({
+class GameClass{
+    @prop({type:String})
+    id!:string;
+    @prop({type:String})
+    name!:string;
+    @prop({type:String})
+    description?: string;
+    @prop({type:String})
+    cover?: string;
+    @prop({type:Date})
+    release_date?: string;
+    @prop({type:String})
+    website?: string;
+    @prop({type:[String]})
+    socials?: string[];
+    @prop({type:Number})
+    rating?: number;
+}
 
-    id : String,
-    name: String,
-    description: String,
-    cover: String,
-    release_date: Date,
-    website: String,
-    socials : [String],
-    rating : Number,
+const Game = getModelForClass(GameClass, {schemaOptions:{
+    timestamps:true
+}});
 
-},{
-    timestamps: true
-});
-
-export const Game = model('Game', gameSchema)
+export {GameClass, Game}
 
     

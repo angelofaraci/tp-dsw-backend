@@ -1,5 +1,4 @@
-import { Schema, model } from "mongoose";
-import { getModelForClass, prop, ReturnModelType } from "@typegoose/typegoose"
+import { getModelForClass, prop } from "@typegoose/typegoose"
 
 class ReviewClass{
     @prop({type:String, required:true})
@@ -18,4 +17,4 @@ class ReviewClass{
 const Review = getModelForClass(ReviewClass, {schemaOptions:{
     timestamps: true
 }});
-export { Review, ReviewClass} ;
+export { Review, ReviewClass };

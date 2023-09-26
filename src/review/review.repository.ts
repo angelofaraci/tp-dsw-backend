@@ -1,13 +1,12 @@
-import { ReturnModelType } from "@typegoose/typegoose"
 import { Review, ReviewClass } from "./review.entity.js"
 
 export class ReviewRepository {
-   public async findAll(): Promise<typeof Review[] | undefined> {
+   public async findAll(): Promise<ReviewClass[] | undefined> {
       return await Review.find()
    }
    
-   public async findOne(item: Partial<ReviewClass> ): Promise< ReviewClass| null | undefined> {
-      return await Review.findOne({id: item.id})
+   public async findOne(item: Partial<ReviewClass> ): Promise< ReviewClass | undefined> {
+      return await Review.findOne({id: item.id}) || undefined
    }
 
    public async add(item:ReviewClass): Promise < ReviewClass | undefined> {
@@ -18,13 +17,13 @@ export class ReviewRepository {
       await newReview.save()
       return item
    }
-   public async update(item: ReviewClass): Promise <ReviewClass | null> {
-      await Review.findOneAndUpdate(item)
-      return item
+   public async update(item: ReviewClass): Promise < ReviewClass | undefined > {
+      const result = await Review.findOneAndUpdate(item)
+      return result || undefined
    }
 
-   public async remove(item:Partial<ReviewClass>): Promise< ReviewClass | null | undefined>{
-      return await Review.findOneAndDelete(item)
+   public async remove(item:Partial<ReviewClass>): Promise< ReviewClass | undefined>{
+      return await Review.findOneAndDelete(item) || undefined
    }
 }
 

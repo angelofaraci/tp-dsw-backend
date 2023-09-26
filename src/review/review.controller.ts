@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import { ReviewRepository } from './review.repository.js'
-import { Review } from './review.entity.js'
 
 const repository = new ReviewRepository()
 
@@ -44,11 +43,9 @@ async function update(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
     req.body.sanitizedInput.id = req.params.id
     const review = await repository.update(input)
-  
     if (!review) {
       return res.status(404).send({ message: 'Review not found' })
     }
-  
     return res.status(200).send({ message: 'Review updated successfully', data: review })
 }
 async function remove(req: Request, res: Response) {

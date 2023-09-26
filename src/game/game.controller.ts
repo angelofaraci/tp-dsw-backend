@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import { GameRepository } from './game.repository.js'
-import { Game } from './game.entity.js'
 
 const repository = new GameRepository()
 
