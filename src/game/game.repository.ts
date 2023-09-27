@@ -1,4 +1,4 @@
-import { Game, GameClass } from "./game.entity.js";
+import { GameModel, Game } from "./game.entity.js";
 
 /* 
     '1',
@@ -11,27 +11,33 @@ import { Game, GameClass } from "./game.entity.js";
     83
  */
 export class GameRepository{
-   public async findAll(): Promise< GameClass[] | undefined> {
-      return await Game.find()
+   public async findAll(): Promise< Game[] | undefined> {
+      return await GameModel.find()
    }
    
-   public async findOne(item: Partial<GameClass> ): Promise < GameClass | undefined> {
-      return await Game.findOne({id: item.id}) || undefined
+//searchs by id and returns one object
+   public async findOne(item: Partial<Game> ): Promise < Game | undefined> {
+      return await GameModel.findOne({id: item.id}) || undefined
    }
 
-   public async add(item: GameClass): Promise < GameClass | undefined> {
-    const newGame = new Game(item)
-      if (await Game.findOne({id: newGame.id})) {return undefined}
+//adds an object to the db
+   public async add(item: Game): Promise < Game | undefined> {
+    const newGame = new GameModel(item)
+      if (await GameModel.findOne({id: newGame.id})) {return undefined}
     await newGame.save()
     return item
    }
 
-   public async update(item: GameClass): Promise <GameClass | undefined> {
-      const result = await Game.findOneAndUpdate(item) 
+
+//searchs an object and updates it
+   public async update(item: Game): Promise <Game | undefined> {
+      const result = await GameModel.findOneAndUpdate(item) 
       return result || undefined
    }
 
-   public async delete(item: Partial<GameClass>): Promise <GameClass  | undefined> {
-      return await Game.findOneAndDelete(item) || undefined
+
+//searchs an object and deletes it
+   public async delete(item: Partial<Game>): Promise <Game  | undefined> {
+      return await GameModel.findOneAndDelete(item) || undefined
    }
 }

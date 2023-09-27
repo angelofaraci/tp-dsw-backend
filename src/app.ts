@@ -9,7 +9,7 @@ import { userRouter } from './user/user.routes.js'
 
 
 
-//DECLARACION DE LA BASE DE DATOS
+//database initialization
 
 mongoose.connect('mongodb://localhost/tp-database', {
 
@@ -23,14 +23,14 @@ app.use(express.json())
 
 
 
-//ENRUTADORES
+//routers
 
 app.use('/api/reviews', reviewRouter)
 app.use('/api/games', gameRouter)
 app.use('/api/user', userRouter)
 
 
-//ARRANQUE DEL SERVIDOR
+//sever start
 
 app.use((_, res) => {
   return res.status(404).send({ message: 'Resource not found' })

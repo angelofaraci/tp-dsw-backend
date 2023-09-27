@@ -4,6 +4,9 @@ import { UserRepository } from './user.repository.js';
 
 const repository = new UserRepository
 
+
+//verifies inputs
+
 function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
     req.body.sanitizedInput = {
         id: req.body.id, //REVISAR!!!!!!!!!!!!!!
@@ -19,6 +22,7 @@ function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
 
 }
 
+//adds an object to the repository 
 
 async function add (req: Request, res: Response, next: NextFunction) {
  
@@ -29,6 +33,10 @@ async function add (req: Request, res: Response, next: NextFunction) {
     }
     res.status(201).json({token})
 }
+
+
+
+//sends an email and password to the repository and returns the token or an error
 
 async function getOne(req: Request, res: Response){
 
@@ -43,12 +51,17 @@ async function getOne(req: Request, res: Response){
 }
 
 
+
+//sends an _id to the repository and returns the correspondent JSON object
+
 async function getUserData(req:Request, res:Response, next: NextFunction){
     const userData = await repository.recoverOne(res.locals.userId)
     return res.status(200).json({userData})
 }
 
-function verifyToken(req: Request, res: Response, next: NextFunction) {
+//verifies token validity
+
+ function verifyToken(req: Request, res: Response, next: NextFunction) {
     if (!req.headers.authorization){
         return res.status(401).send('Unauthorized request')
     }
@@ -59,6 +72,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
     const payload: any = jwt.verify(token, 'secretKey')
     res.locals.userId = payload._id
+   
     next()
 }
 

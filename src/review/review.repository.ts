@@ -1,29 +1,38 @@
-import { Review, ReviewClass } from "./review.entity.js"
+import { ReviewModel, Review } from "./review.entity.js"
+
+
 
 export class ReviewRepository {
-   public async findAll(): Promise<ReviewClass[] | undefined> {
-      return await Review.find()
+   public async findAll(): Promise<Review[] | undefined> {
+      return await ReviewModel.find()
    }
    
-   public async findOne(item: Partial<ReviewClass> ): Promise< ReviewClass | undefined> {
-      return await Review.findOne({id: item.id}) || undefined
+//searchs by id and returns one object
+   public async findOne(item: Partial<Review> ): Promise< Review | undefined> {
+      return await ReviewModel.findOne({id: item.id}) || undefined
    }
 
-   public async add(item:ReviewClass): Promise < ReviewClass | undefined> {
-      const newReview = new Review(item)
-      if (await Review.findOne({id: item.id})){
+
+//adds an object to the db
+   public async add(item:Review): Promise < Review | undefined> {
+      const newReview = new ReviewModel(item)
+      if (await ReviewModel.findOne({id: item.id})){
          return undefined
       }
       await newReview.save()
       return item
    }
-   public async update(item: ReviewClass): Promise < ReviewClass | undefined > {
-      const result = await Review.findOneAndUpdate(item)
+
+//searchs an object and updates it
+   public async update(item: Review): Promise < Review | undefined > {
+      const result = await ReviewModel.findOneAndUpdate(item)
       return result || undefined
    }
 
-   public async remove(item:Partial<ReviewClass>): Promise< ReviewClass | undefined>{
-      return await Review.findOneAndDelete(item) || undefined
+
+//searchs an object and deletes it
+   public async remove(item:Partial<Review>): Promise< Review | undefined>{
+      return await ReviewModel.findOneAndDelete(item) || undefined
    }
 }
 

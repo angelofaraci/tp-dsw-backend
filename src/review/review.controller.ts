@@ -3,6 +3,8 @@ import { ReviewRepository } from './review.repository.js'
 
 const repository = new ReviewRepository()
 
+
+//verifies inputs
 function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
     req.body.sanitizedInput = {
         id: req.body.id, //REVISAR!!!!!!!!!!!!!!
@@ -15,12 +17,12 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 
 }
 
-
+//finds all objects in the schema
 async function findAll(req: Request, res: Response) {
     res.json({ data: await repository.findAll() })
 }
 
-
+//finds an object by id and returns its data
 async function findOne(req: Request, res: Response) {
     const id = req.params.id
     const review = await repository.findOne({ id })
@@ -30,6 +32,8 @@ async function findOne(req: Request, res: Response) {
     res.json({ data: review })
 }
 
+
+//adds an object to the repository 
 async function add(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
     const review = await repository.add(input);
@@ -39,6 +43,8 @@ async function add(req: Request, res: Response) {
     res.status(201).send({ message: 'Review created', data: review })
 }
 
+
+//finds an object by id and updates by the req body
 async function update(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
     req.body.sanitizedInput.id = req.params.id
@@ -48,6 +54,8 @@ async function update(req: Request, res: Response) {
     }
     return res.status(200).send({ message: 'Review updated successfully', data: review })
 }
+
+//finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
     const id = req.params.id
     const review = await repository.remove({ id })
