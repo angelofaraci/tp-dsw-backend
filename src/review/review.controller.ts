@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ReviewRepository } from './review.repository.js'
+import { User, UserModel } from '../user/user.entity.js'
 
 const repository = new ReviewRepository()
 
@@ -12,6 +13,7 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
         body : req.body.body,
         spoiler_check : req.body.spoiler_check,
         state: req.body.state,
+        userId: req.body.userId
     }
       next()
 

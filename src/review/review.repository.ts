@@ -13,6 +13,9 @@ export class ReviewRepository {
    }
 
 
+public async updateUser(review: Review){
+   
+}
 //adds an object to the db
    public async add(item:Review): Promise < Review | undefined> {
       const newReview = new ReviewModel(item)
@@ -20,6 +23,7 @@ export class ReviewRepository {
          return undefined
       }
       await newReview.save()
+
       return item
    }
 

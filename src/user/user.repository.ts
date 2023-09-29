@@ -1,5 +1,6 @@
 import { User, UserModel } from "./user.entity.js"
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
+import { Review, ReviewModel } from "../review/review.entity.js"
 
 
 //exports the repository and its methods
@@ -14,6 +15,21 @@ export class UserRepository {
         return jwt.sign({_id: newUser._id}, 'secretKey')
     }
 
+public async addReview(reviewId: string){
+    try{
+        const review = await ReviewModel.findById(reviewId) || undefined
+        const user = await UserModel.findById(review?.userId) || undefined
+        if(!user?.reviews?.includes(reviewId)){
+            user?.reviews?.push(reviewId)
+        }
+        const result = await UserModel.findOneAndUpdate({_id: user?._id}, user)
+        return user
+      
+    }catch(error){
+        console.log(error)
+    }
+    
+}
 
 //Searchs by email and returns a token
 

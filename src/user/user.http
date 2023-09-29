@@ -1,0 +1,29 @@
+### obtener todos los usuarios
+GET http://localhost:3000/api/
+
+
+### obtener un usuario
+POST http://localhost:3000/api/user/login
+Content-Type: application/json
+
+{
+    "email":"example@gmail.com",
+    "password":"password"
+}
+
+### obtener datos del usuario
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTE3MWM1MjU5NzM2MDRlNzJkNjA5ZGUiLCJpYXQiOjE2OTYwMTQzMDh9.6Pm5yenS7p8KCiLtfgcwQexe2hwKeXdcf0Qcl3WmpaI
+
+### crear un usuario
+POST http://localhost:3000/api/user/signup
+Content-Type: application/json
+
+{
+    "email":"example@gmail.com",
+    "password":"password"
+}
+
+### agregar una review a un usuario
+PUT http://localhost:3000/api/user/65171c6d5973604e72d609e1
+
+
