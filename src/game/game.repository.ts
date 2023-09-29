@@ -1,15 +1,6 @@
 import { GameModel, Game } from "./game.entity.js";
 
-/* 
-    '1',
-    'The Legend Of Zelda: Breath Of The Wild',
-    'Hey! Listen!',
-    'https://static.tycsports.com/sites/default/files/nota_periodistica/botw-share_icon.jpg',
-    new Date(2017, 0o3, 0o3),
-    'https://www.nintendo.com/es-ar/store/products/the-legend-of-zelda-breath-of-the-wild-switch/',
-    ['https://twitter.com/ZeldaOfficialJP'],
-    83
- */
+
 export class GameRepository{
    public async findAll(): Promise< Game[] | undefined> {
       return await GameModel.find()
@@ -41,3 +32,15 @@ export class GameRepository{
       return await GameModel.findOneAndDelete(item) || undefined
    }
 }
+
+
+/* 
+    '1',
+    'The Legend Of Zelda: Breath Of The Wild',
+    'Hey! Listen!',
+    'https://static.tycsports.com/sites/default/files/nota_periodistica/botw-share_icon.jpg',
+    new Date(2017, 0o3, 0o3),
+    'https://www.nintendo.com/es-ar/store/products/the-legend-of-zelda-breath-of-the-wild-switch/',
+    ['https://twitter.com/ZeldaOfficialJP'],
+    83
+ */

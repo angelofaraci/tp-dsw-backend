@@ -1,0 +1,44 @@
+### obtener todas las reviews
+GET http://localhost:3000/api/games
+
+
+### obtener una review
+GET http://localhost:3000/api/games/1
+
+### crear una review
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "1",
+    "name": "Undertale",
+    "description": "sus",
+    "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/391540/capsule_616x353.jpg?t=1579096091",
+    "release_date": "2015-09-15T03:00:00.000Z",
+    "website": "https://undertale.com/",
+    "socials": [
+      "https://twitter.com/Undertale"
+    ],
+    "rating": 100
+}
+
+
+### modificar una review
+PUT http://localhost:3000/api/games/2
+Content-Type: application/json
+
+{
+    "id": "2",
+    "name": "Undertale",
+    "description": "sans",
+    "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/391540/capsule_616x353.jpg?t=1579096091",
+    "release_date": "2015-09-15T03:00:00.000Z",
+    "website": "https://undertale.com/",
+    "socials": [
+      "https://twitter.com/Undertale"
+    ],
+    "rating": 98
+  }
+
+### borrar una review
+DELETE http://localhost:3000/api/games/2
