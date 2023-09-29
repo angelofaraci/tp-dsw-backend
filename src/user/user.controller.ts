@@ -36,7 +36,8 @@ async function add (req: Request, res: Response, next: NextFunction) {
 
  async function addReview(req: Request, res:Response){
     const reviewId = req.params.id
-    const response = await repository.addReview(reviewId)
+    const userId = res.locals.user._id
+    const response = await repository.addReview(reviewId, userId)
     res.status(200).send(response)
 }
 
@@ -60,7 +61,9 @@ async function getOne(req: Request, res: Response){
 
 async function getUserData(req:Request, res:Response, next: NextFunction){
     const userData = await repository.recoverOne(res.locals.userId)
+    res.locals.user = userData
     return res.status(200).json({userData})
+    next()
 }
 
 //verifies token validity

@@ -7,5 +7,5 @@ export const userRouter = Router()
 
 userRouter.post('/signup', sanitizeUserInput, add)
 userRouter.post('/login', sanitizeUserInput, getOne)
-userRouter.put('/:id', sanitizeUserInput, addReview )
+userRouter.put('/:id', sanitizeUserInput, getUserData, addReview )
 userRouter.get('/profile', verifyToken, getUserData)

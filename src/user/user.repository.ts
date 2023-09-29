@@ -4,6 +4,7 @@ import { Review, ReviewModel } from "../review/review.entity.js"
 import mongoose from "mongoose"
 
 
+
 //exports the repository and its methods
 export class UserRepository {
     
@@ -16,18 +17,16 @@ export class UserRepository {
         return jwt.sign({_id: newUser._id}, 'secretKey')
     }
 
-public async addReview(reviewId: string){
+public async addReview(reviewId: string, userId: mongoose.Types.ObjectId){
     try{
-        const review = await ReviewModel.findById(reviewId) || undefined
-        const user = await UserModel.findById(review?.userId) || undefined
+        const user = await UserModel.findById(userId) || undefined
         const review_id = new mongoose.Types.ObjectId(reviewId)
-        console.log(user)
         if(!user?.reviews?.includes(review_id)){
             user?.reviews?.push(review_id)
         }
         const result = await UserModel.findOneAndUpdate({_id: user?._id}, user)
-       
-        return user
+        console.log(user?.populate('Reviews'))
+      
       
     }catch(error){
         console.log(error)

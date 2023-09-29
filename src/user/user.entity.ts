@@ -1,5 +1,6 @@
 import { prop, getModelForClass } from "@typegoose/typegoose"
-import { ObjectId, Types } from "mongoose";
+import {  Types } from "mongoose";
+import { Review } from "../review/review.entity.js";
 
 
 //typegoose class declaration
@@ -12,7 +13,7 @@ class User {
         @prop({type:String}) password!:string;
         @prop({type:String}) phone?:string;
         @prop({type:Number}) level!:number;
-        @prop({type:Types.ObjectId}) reviews?:Types.ObjectId[];
+        @prop({type:Types.ObjectId, ref: Review }) reviews?:Types.ObjectId[];
 }
 
 
