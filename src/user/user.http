@@ -24,6 +24,6 @@ Content-Type: application/json
 }
 
 ### agregar una review a un usuario
-PUT http://localhost:3000/api/user/65171c6d5973604e72d609e1
+PUT http://localhost:3000/api/user/6517320bb6bb42615b74a7b4
 
 

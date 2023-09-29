@@ -36,7 +36,6 @@ async function add (req: Request, res: Response, next: NextFunction) {
 
  async function addReview(req: Request, res:Response){
     const reviewId = req.params.id
-    console.log(reviewId)
     const response = await repository.addReview(reviewId)
     res.status(200).send(response)
 }

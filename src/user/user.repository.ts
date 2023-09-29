@@ -1,6 +1,7 @@
 import { User, UserModel } from "./user.entity.js"
 import jwt from 'jsonwebtoken'
 import { Review, ReviewModel } from "../review/review.entity.js"
+import mongoose from "mongoose"
 
 
 //exports the repository and its methods
@@ -19,10 +20,13 @@ public async addReview(reviewId: string){
     try{
         const review = await ReviewModel.findById(reviewId) || undefined
         const user = await UserModel.findById(review?.userId) || undefined
-        if(!user?.reviews?.includes(reviewId)){
-            user?.reviews?.push(reviewId)
+        const review_id = new mongoose.Types.ObjectId(reviewId)
+        console.log(user)
+        if(!user?.reviews?.includes(review_id)){
+            user?.reviews?.push(review_id)
         }
         const result = await UserModel.findOneAndUpdate({_id: user?._id}, user)
+       
         return user
       
     }catch(error){
@@ -46,7 +50,7 @@ public async addReview(reviewId: string){
   
 //Searchs by _id and returns JSON data
     public async recoverOne(id:string): Promise<User | undefined>{
-        const user = await UserModel.findById(id) 
+        const user = await UserModel.findById(id).populate('reviews')
         if (user){
             return user || undefined
         } 
