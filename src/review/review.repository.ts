@@ -1,6 +1,7 @@
 import { ReviewModel, Review } from "./review.entity.js"
 import { User } from "../user/user.entity.js"
-
+import { Game, GameModel } from "../game/game.entity.js"
+import mongoose from "mongoose"
 
 
 export class ReviewRepository {
@@ -10,7 +11,8 @@ export class ReviewRepository {
    
 //searchs by id and returns one object
    public async findOne(item: Partial<Review> ): Promise< Review | undefined> {
-      return await ReviewModel.findOne({id: item.id}) || undefined
+       return await ReviewModel.findOne({id: item.id}) || undefined
+   
    }
 
 
@@ -18,14 +20,16 @@ public async updateUser(review: Review){
    
 }
 //adds an object to the db
-   public async add(item:Review): Promise < Review | undefined> {
+   public async add(item:Review, gameId:string): Promise < Review | undefined> {
+      const gameObjectId = new mongoose.Types.ObjectId(gameId)
       const newReview = new ReviewModel(item)
+      newReview.gameId = gameObjectId
       if (await ReviewModel.findOne({id: item.id})){
          return undefined
       }
       await newReview.save()
 
-      return item
+      return newReview
    }
 
 //searchs an object and updates it

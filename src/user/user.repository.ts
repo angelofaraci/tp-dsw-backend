@@ -17,6 +17,7 @@ export class UserRepository {
         return jwt.sign({_id: newUser._id}, 'secretKey')
     }
 
+//adds a review to the reviews collection
 public async addReview(reviewId: string, userId: mongoose.Types.ObjectId){
     try{
         const user = await UserModel.findById(userId) || undefined

@@ -38,7 +38,8 @@ async function findOne(req: Request, res: Response) {
 //adds an object to the repository 
 async function add(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
-    const review = await repository.add(input);
+    const gameId = req.params.gameId
+    const review = await repository.add(input, gameId);
     if (!review){
       return res.status(400).send({message: 'Review already exist'})
     }
