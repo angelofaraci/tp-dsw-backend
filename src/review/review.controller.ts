@@ -13,7 +13,8 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
         body : req.body.body,
         spoiler_check : req.body.spoiler_check,
         state: req.body.state,
-        userId: req.body.userId
+        userId: req.body.userId,
+        gameId: req.body.gameId
     }
       next()
 

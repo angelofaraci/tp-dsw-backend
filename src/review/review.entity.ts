@@ -9,7 +9,7 @@ class Review{
     @prop({type:String, required:true}) public body!:string;
     @prop({type:Boolean, required:true}) public spoiler_check!:boolean;
     @prop({type:String, required:true}) public state!:string;
-    //@prop({type:Types.ObjectId, ref: User}) public userId?:Types.ObjectId;
+    @prop({type:Types.ObjectId, ref: User}) public userId?:Types.ObjectId;
     @prop({type:Types.ObjectId, ref: Game}) public gameId?:Types.ObjectId;
 };
 

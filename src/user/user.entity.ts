@@ -13,7 +13,7 @@ class User {
         @prop({type:String}) password!:string;
         @prop({type:String}) phone?:string;
         @prop({type:Number}) level!:number;
-        @prop({type:Types.ObjectId, ref: Review }) reviews?:Types.ObjectId[];
+        //@prop({type:Types.ObjectId, ref: Review }) reviews?:Types.ObjectId[];
 }
 
 

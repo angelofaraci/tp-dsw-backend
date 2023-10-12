@@ -34,12 +34,12 @@ async function add (req: Request, res: Response, next: NextFunction) {
     res.status(201).json({token})
 }
 
- async function addReview(req: Request, res:Response){
-    const reviewId = req.params.id
-    const userId = res.locals.user._id
-    const response = await repository.addReview(reviewId, userId)
-    res.status(200).send(response)
-}
+//  async function addReview(req: Request, res:Response){
+//     const reviewId = req.params.id
+//     const userId = res.locals.user._id
+//     const response = await repository.addReview(reviewId, userId)
+//     res.status(200).send(response)
+// }
 
 //sends an email and password to the repository and returns the token or an error
 
@@ -83,5 +83,5 @@ async function getUserData(req:Request, res:Response, next: NextFunction){
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken, getUserData, addReview }
+export { sanitizeUserInput, add, getOne, verifyToken, getUserData}
 

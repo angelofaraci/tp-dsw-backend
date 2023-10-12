@@ -18,22 +18,22 @@ export class UserRepository {
     }
 
 //adds a review to the reviews collection
-public async addReview(reviewId: string, userId: mongoose.Types.ObjectId){
-    try{
-        const user = await UserModel.findById(userId) || undefined
-        const review_id = new mongoose.Types.ObjectId(reviewId)
-        if(!user?.reviews?.includes(review_id)){
-            user?.reviews?.push(review_id)
-        }
-        const result = await UserModel.findOneAndUpdate({_id: user?._id}, user)
-        console.log(user?.populate('Reviews'))
+// public async addReview(reviewId: string, userId: mongoose.Types.ObjectId){
+//     try{
+//         const user = await UserModel.findById(userId) || undefined
+//         const review_id = new mongoose.Types.ObjectId(reviewId)
+//         if(!user?.reviews?.includes(review_id)){
+//             user?.reviews?.push(review_id)
+//         }
+//         const result = await UserModel.findOneAndUpdate({_id: user?._id}, user)
+//         console.log(user?.populate('Reviews'))
       
       
-    }catch(error){
-        console.log(error)
-    }
+//     }catch(error){
+//         console.log(error)
+//     }
     
-}
+// }
 
 //Searchs by email and returns a token
 
@@ -50,7 +50,7 @@ public async addReview(reviewId: string, userId: mongoose.Types.ObjectId){
   
 //Searchs by _id and returns JSON data
     public async recoverOne(id:string): Promise<User | undefined>{
-        const user = await UserModel.findById(id).populate('reviews')
+        const user = await UserModel.findById(id)
         if (user){
             return user || undefined
         } 
