@@ -6,14 +6,14 @@ GET http://localhost:3000/api/reviews
 GET http://localhost:3000/api/reviews/1
 
 ### crear una review
-POST http://localhost:3000/api/reviews/6522ed8715a175fae43bcc64
+POST http://localhost:3000/api/reviews/
 Content-Type: application/json
 
 {
-    "rating": "100",
+    "rating": 100,
     "body": "Juegardo",
-    "spoiler_check": "true",
-    "state": "Public",
+    "spoiler_check": true,
+    "private": false,
     "id": "1"
 }
 
@@ -24,8 +24,8 @@ Content-Type: application/json
 {
       "rating": "73",
       "body": "No tan Juegardo",
-      "spoiler_check": "false",
-      "state": "Private",
+      "spoiler_check": false,
+      "private": false,
       "id": "1"
 }
 

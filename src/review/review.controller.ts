@@ -7,6 +7,7 @@ const repository = new ReviewRepository()
 
 //verifies inputs
 function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
+
     req.body.sanitizedInput = {
         id: req.body.id, //REVISAR!!!!!!!!!!!!!!
         rating: req.body.rating,
@@ -38,9 +39,9 @@ async function findOne(req: Request, res: Response) {
 
 //adds an object to the repository 
 async function add(req: Request, res: Response) {
+   
     const input = req.body.sanitizedInput;
-    const gameId = req.params.gameId
-    const review = await repository.add(input, gameId);
+    const review = await repository.add(input);
     if (!review){
       return res.status(400).send({message: 'Review already exist'})
     }

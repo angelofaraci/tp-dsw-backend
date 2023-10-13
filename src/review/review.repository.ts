@@ -20,10 +20,9 @@ public async updateUser(review: Review){
    
 }
 //adds an object to the db
-   public async add(item:Review, gameId:string): Promise < Review | undefined> {
-      const gameObjectId = new mongoose.Types.ObjectId(gameId)
+   public async add(item:Review): Promise < Review | undefined> {
+      console.log('entra aca')
       const newReview = new ReviewModel(item)
-      newReview.gameId = gameObjectId
       if (await ReviewModel.findOne({id: item.id})){
          return undefined
       }

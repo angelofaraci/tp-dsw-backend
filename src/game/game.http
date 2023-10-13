@@ -3,7 +3,7 @@ GET http://localhost:3000/api/games
 
 
 ### obtener una review
-GET http://localhost:3000/api/games/1
+GET http://localhost:3000/api/games/3
 
 ### crear una review
 POST http://localhost:3000/api/games
@@ -20,6 +20,21 @@ Content-Type: application/json
       "https://twitter.com/Undertale"
     ],
     "rating": 100
+}
+
+### crear una review
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "3",
+    "name": "The Legend Of Zelda: Tears of the Kingdom",
+    "description": "The Legend of Zelda: Tears of the Kingdom es un videojuego de acción-aventura de 2023 de la serie The Legend of Zelda, desarrollado por la filial Nintendo EPD en colaboración con Monolith Soft y publicado por Nintendo para la consola Nintendo Switch.",
+    "cover": "https://media.vandal.net/i/1440x1080/5-2023/2023591016846_1.jpg",
+    "release_date": "2023-05-12T03:00:00.000Z",
+    "website": "",
+    "socials": [],
+    "rating": 0
 }
 
 
