@@ -1,7 +1,7 @@
-import { Ref, getModelForClass, prop } from "@typegoose/typegoose"
-import { ObjectId, Types } from "mongoose";
-import { User, UserModel } from "../user/user.entity.js";
-import { Game, GameModel } from "../game/game.entity.js";
+import { getModelForClass, prop } from "@typegoose/typegoose"
+import { Types } from "mongoose";
+import { User } from "../user/user.entity.js";
+import { Game } from "../game/game.entity.js";
 
 class Review{
     @prop({type:String, required:false}) public id?:string;
