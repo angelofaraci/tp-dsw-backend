@@ -21,6 +21,14 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 
 }
 
+async function checkIfReviewed(req: Request, res:Response){
+
+  const userId = req.body.userId
+  const gameId = req.body.gameId
+  const reviewed = await repository.checkIfReviewed(userId, gameId)
+  return res.status(200).json({isReviewed: reviewed})
+}
+
 //finds all objects in the schema
 async function findAll(req: Request, res: Response) {
     res.json({ data: await repository.findAll() })
@@ -71,4 +79,4 @@ async function remove(req: Request, res: Response) {
       res.status(200).send({ message: 'Review deleted successfully'})
   }
   
-  export { sanitizeReviewInput, findAll, findOne, add, update, remove }
+  export { sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed }

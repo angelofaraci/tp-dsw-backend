@@ -1,7 +1,7 @@
 import { ReviewModel, Review } from "./review.entity.js"
 import { User } from "../user/user.entity.js"
 import { Game, GameModel } from "../game/game.entity.js"
-import mongoose from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 
 export class ReviewRepository {
@@ -21,7 +21,6 @@ public async updateUser(review: Review){
 }
 //adds an object to the db
    public async add(item:Review): Promise < Review | undefined> {
-      console.log('entra aca')
       const newReview = new ReviewModel(item)
       if (await ReviewModel.findOne({id: item.id})){
          return undefined
@@ -42,7 +41,25 @@ public async updateUser(review: Review){
    public async remove(item:Partial<Review>): Promise< Review | undefined>{
       return await ReviewModel.findOneAndDelete(item) || undefined
    }
+
+   //checks if an user has already reviewed this game
+
+public async checkIfReviewed(userId: any, gameId: any): Promise < boolean | undefined >{
+   
+   const user_id = new Types.ObjectId(userId)
+   const game_id = new Types.ObjectId(gameId)
+   const review = await ReviewModel.findOne({ $and: [{ userId: user_id }, { gameId: game_id }] }) || undefined
+
+   if(review){
+      return true 
+   } else {
+      return false 
+   }
+
 }
+}
+
+
 
 
 
