@@ -34,6 +34,14 @@ async function findAll(req: Request, res: Response) {
     res.json({ data: await repository.findAll() })
 }
 
+
+//finds all reviews for a game
+async function findAllForGame(req: Request, res: Response){
+  const gameId = req.body.gameId
+  const reviews = await repository.findAllForGame(gameId)
+  res.status(200).json(reviews)
+}
+
 //finds an object by id and returns its data
 async function findOne(req: Request, res: Response) {
     const id = req.params.id
@@ -79,4 +87,4 @@ async function remove(req: Request, res: Response) {
       res.status(200).send({ message: 'Review deleted successfully'})
   }
   
-  export { sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed }
+  export { sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed, findAllForGame }

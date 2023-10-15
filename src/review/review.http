@@ -16,7 +16,9 @@ Content-Type: application/json
     "body": "Juegardo",
     "spoiler_check": true,
     "private": false,
-    "id": "1"
+    "id": "1",
+    "gameId":"652b2db71569f510653bc6e7",
+    "userId":"652c535e1d3a65e7fcc39c71"
 }
 
 ### modificar una review

@@ -11,7 +11,7 @@ export class ReviewRepository {
    
 //searchs by id and returns one object
    public async findOne(item: Partial<Review> ): Promise< Review | undefined> {
-       return await ReviewModel.findOne({id: item.id}) || undefined
+       return await ReviewModel.findOne({id: item.id}).populate('userId') || undefined
    
    }
 
@@ -43,6 +43,20 @@ public async updateUser(review: Review){
    }
 
    //checks if an user has already reviewed this game
+
+public async findAllForGame(gameId: any){
+   const game_id = new Types.ObjectId(gameId)
+   const gameReviews = ReviewModel.find({ gameId: game_id }).populate('userId')
+   return gameReviews
+   
+}
+
+
+//game 652b2db71569f510653bc6e7
+//user1 65286ed487478558c888c57b
+//user2 652c3e0583536838c10cbce5
+//user3 652c3e1583536838c10cbce8
+
 
 public async checkIfReviewed(userId: any, gameId: any): Promise < boolean | undefined >{
    
