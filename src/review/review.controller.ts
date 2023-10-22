@@ -76,6 +76,13 @@ async function update(req: Request, res: Response) {
     return res.status(200).send({ message: 'Review updated successfully', data: review })
 }
 
+async function calculateScore(req: Request, res:Response, next:NextFunction){
+
+const gameId = req.body.gameId
+await repository.calculateScore(gameId)
+next()
+}
+
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
     const id = req.params.id
@@ -87,4 +94,4 @@ async function remove(req: Request, res: Response) {
       res.status(200).send({ message: 'Review deleted successfully'})
   }
   
-  export { sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed, findAllForGame }
+  export { calculateScore, sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed, findAllForGame }

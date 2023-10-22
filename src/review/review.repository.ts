@@ -15,10 +15,24 @@ export class ReviewRepository {
    
    }
 
+public async calculateScore(gameId: any){
+   const game_id = new Types.ObjectId(gameId)
+   const gameReviews: any = await ReviewModel.find({ gameId: game_id }) || undefined
+   let scoreAcum = 0
+      for(let i=0; i<gameReviews.length; i++){
+         
+         scoreAcum = scoreAcum + gameReviews[i].rating
+      }
+   const calculatedRating = scoreAcum / gameReviews.length
+   const calculatedRatingRounded = Math.round(calculatedRating)
 
-public async updateUser(review: Review){
+   const game: any = await GameModel.findById(game_id) || undefined
+   game.rating = calculatedRatingRounded
+
+   const result = await GameModel.findByIdAndUpdate(game_id, game) || undefined
    
 }
+
 //adds an object to the db
    public async add(item:Review): Promise < Review | undefined> {
       const newReview = new ReviewModel(item)
