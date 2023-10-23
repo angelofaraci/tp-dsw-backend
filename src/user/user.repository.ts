@@ -55,4 +55,21 @@ export class UserRepository {
             return user || undefined
         } 
     }
+
+    public async recoverOneByEmail(email:string): Promise<User | undefined>{
+        try{
+            const user = await UserModel.findOne({email: email}) || undefined
+            if (!user) {throw new Error('Wrong Email')}
+            return user
+        } catch(error: any){
+             return error.message
+        }
+    }
+
+    public async update(item: User): Promise < User | undefined > {
+        const result = await UserModel.findOneAndUpdate(item)
+        return result || undefined
+     }
+
+        
 }

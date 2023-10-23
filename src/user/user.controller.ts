@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository.js';
+import { RefOptionIsUndefinedError } from '@typegoose/typegoose/lib/internal/errors.js';
 
 const repository = new UserRepository
 
@@ -15,7 +16,7 @@ function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
         email : req.body.email,
         password: req.body.password,
         phone: req.body.phone,
-        level: req.body.level
+        level: req.body.level,
     }
     
       next()
@@ -63,7 +64,18 @@ async function getUserData(req:Request, res:Response, next: NextFunction){
     const userData = await repository.recoverOne(res.locals.userId)
     res.locals.user = userData
     return res.status(200).json({userData})
-    next()
+}
+
+async function changeLevel(req:Request, res:Response, next:NextFunction) {
+    const input = req.body.sanitizedInput
+    let user = await repository.recoverOneByEmail(input.email)
+    if(user){
+    req.body.sanitizedInput.id = user?.id
+    req.body.sanitizedInput.level = user.level + req.body.ammount
+    user = await repository.update(input)
+    return res.status(200).send({message: 'User level changed correctly'})}
+    return res.status(404).send({ message: 'User not found' })
+    
 }
 
 //verifies token validity
@@ -83,5 +95,5 @@ async function getUserData(req:Request, res:Response, next: NextFunction){
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken, getUserData}
+export { sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel}
 

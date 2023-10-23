@@ -5,6 +5,7 @@ import cors from 'cors'
 import { reviewRouter } from './review/review.routes.js'
 import { gameRouter } from './game/game.routes.js'
 import { userRouter } from './user/user.routes.js'
+import { adminRouter } from './admin/admin.routes.js'
 
 
 
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use('/api/reviews', reviewRouter)
 app.use('/api/games', gameRouter)
 app.use('/api/user', userRouter)
+app.use('/api/admin', adminRouter)
 
 
 //sever start

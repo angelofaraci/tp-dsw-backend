@@ -1,5 +1,5 @@
 ### obtener todos los usuarios
-GET http://localhost:3000/api/
+GET http://localhost:3000/api/user/
 
 
 ### obtener un usuario
@@ -20,10 +20,15 @@ Content-Type: application/json
 
 {
     "email":"example@gmail.com",
-    "password":"password"
+    "password":"password",
+    "level":1
 }
 
 ### agregar una review a un usuario
-PUT http://localhost:3000/api/user/6517320bb6bb42615b74a7b4
+PUT http://localhost:3000/api/user/levelUp
+Content-Type: application/json
 
-
+{
+    "email":"example@gmail.com",
+    "ammount": -2
+}

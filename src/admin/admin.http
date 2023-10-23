@@ -1,0 +1,8 @@
+### obtener un usuario
+POST http://localhost:3000/api/admin/signup
+Content-Type: application/json
+
+{
+    "email":"admin@example.com",
+    "password":"password"
+}
