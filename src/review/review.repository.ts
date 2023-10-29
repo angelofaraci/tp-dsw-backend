@@ -36,7 +36,7 @@ public async calculateScore(gameId: any){
 //adds an object to the db
    public async add(item:Review): Promise < Review | undefined> {
       const newReview = new ReviewModel(item)
-      if (await ReviewModel.findOne({id: item.id})){
+      if (await ReviewModel.findById(item.id)){
          return undefined
       }
       await newReview.save()

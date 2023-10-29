@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository.js';
+import { User, UserModel } from "./user.entity.js"
 import { RefOptionIsUndefinedError } from '@typegoose/typegoose/lib/internal/errors.js';
 
 const repository = new UserRepository
@@ -28,32 +29,33 @@ function sanitizeUserInput(req:Request, res:Response, next: NextFunction ) {
 async function add (req: Request, res: Response, next: NextFunction) {
  
     const input = req.body.sanitizedInput
-    const token = await repository.add(input)
+    input.level = 1;
+    const newUser = new UserModel(input)
+        if (await UserModel.findOne({email: input.email})){
+            return undefined
+         }
+    await newUser.save()
+    const token = jwt.sign({_id: newUser._id}, 'secretKey')
     if(!token){
         return res.status(400).send({message: "User already exists"})
     }
     res.status(201).json({token})
 }
 
-//  async function addReview(req: Request, res:Response){
-//     const reviewId = req.params.id
-//     const userId = res.locals.user._id
-//     const response = await repository.addReview(reviewId, userId)
-//     res.status(200).send(response)
-// }
-
-//sends an email and password to the repository and returns the token or an error
-
 async function getOne(req: Request, res: Response){
 
     const email = req.body.email
     const password  = req.body.password
-    const token = await repository.getOne(email, password)
-    if ( token === 'Wrong Email' || token === 'Wrong Password') {
-        const error = token
-        return res.status(401).send({error})
-    }
-    else {res.status(200).json({token})}
+    try{
+        const userLogIn = await UserModel.findOne({email: email}) || undefined
+        if (!userLogIn) {throw new Error('Wrong Email')}
+        if (userLogIn.password !== password) {throw new Error('Wrong Password')}
+        const token = jwt.sign({_id: userLogIn._id}, 'secretKey')
+        return res.status(200).json({token})
+    } catch(error: any){
+        const message = error.message
+        return res.status(401).send({message})
+    }   
 }
 
 
@@ -61,21 +63,18 @@ async function getOne(req: Request, res: Response){
 //sends an _id to the repository and returns the correspondent JSON object
 
 async function getUserData(req:Request, res:Response, next: NextFunction){
-    const userData = await repository.recoverOne(res.locals.userId)
+    const userData = await UserModel.findById(res.locals.userId)
     res.locals.user = userData
     return res.status(200).json({userData})
 }
 
 async function changeLevel(req:Request, res:Response, next:NextFunction) {
     const input = req.body.sanitizedInput
-    let user = await repository.recoverOneByEmail(input.email)
-    if(user){
-    req.body.sanitizedInput.id = user?.id
-    req.body.sanitizedInput.level = user.level + req.body.ammount
-    user = await repository.update(input)
-    return res.status(200).send({message: 'User level changed correctly'})}
-    return res.status(404).send({ message: 'User not found' })
-    
+    const user = await UserModel.findOneAndUpdate({email:input.email}, {level:input.level}, {new: true})
+    if (user){
+        return res.status(200).json({user})
+    }
+    return res.status(401).send({message:'User not found'})
 }
 
 //verifies token validity

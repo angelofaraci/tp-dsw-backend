@@ -57,16 +57,12 @@ export class UserRepository {
     }
 
     public async recoverOneByEmail(email:string): Promise<User | undefined>{
-        try{
             const user = await UserModel.findOne({email: email}) || undefined
-            if (!user) {throw new Error('Wrong Email')}
-            return user
-        } catch(error: any){
-             return error.message
-        }
+            return user || undefined
     }
 
-    public async update(item: User): Promise < User | undefined > {
+    public async updateByEmail(item: User): Promise < User | undefined > {
+        console.log(item)
         const result = await UserModel.findOneAndUpdate(item)
         return result || undefined
      }
