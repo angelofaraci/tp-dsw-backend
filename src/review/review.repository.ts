@@ -1,7 +1,7 @@
 import { ReviewModel, Review } from "./review.entity.js"
 import { User } from "../user/user.entity.js"
 import { Game, GameModel } from "../game/game.entity.js"
-import mongoose, { Types } from "mongoose"
+import mongoose, { ObjectId, Types } from "mongoose"
 
 
 export class ReviewRepository {
@@ -52,8 +52,8 @@ public async calculateScore(gameId: any){
 
 
 //searchs an object and deletes it
-   public async remove(item:Partial<Review>): Promise< Review | undefined>{
-      return await ReviewModel.findOneAndDelete(item) || undefined
+   public async remove(id: string): Promise< Review | undefined>{
+      return await ReviewModel.findOneAndDelete(new Types.ObjectId(id)) || undefined
    }
 
    //checks if an user has already reviewed this game

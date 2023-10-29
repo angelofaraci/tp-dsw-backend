@@ -85,8 +85,8 @@ next()
 
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
-    const id = req.params.id
-    const review = await repository.remove({ id })
+    const id = req.params.id 
+    const review = await repository.remove(id)
   
     if (!review) {
       return res.status(404).send({ message: 'Review not found'})
