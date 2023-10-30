@@ -1,28 +1,12 @@
-### obtener todas las reviews
+### obtener todos los juegos
 GET http://localhost:3000/api/games
 
 
-### obtener una review
+### obtener un juego
 GET http://localhost:3000/api/games/3
 
-### crear una review
-POST http://localhost:3000/api/games
-Content-Type: application/json
 
-{
-    "id": "1",
-    "name": "Undertale",
-    "description": "sus",
-    "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/391540/capsule_616x353.jpg?t=1579096091",
-    "release_date": "2015-09-15T03:00:00.000Z",
-    "website": "https://undertale.com/",
-    "socials": [
-      "https://twitter.com/Undertale"
-    ],
-    "rating": 100
-}
-
-### crear una review
+### crear un juego
 POST http://localhost:3000/api/games
 Content-Type: application/json
 
@@ -38,7 +22,7 @@ Content-Type: application/json
 }
 
 
-### modificar una review
+### modificar un juego
 PUT http://localhost:3000/api/games/2
 Content-Type: application/json
 
@@ -55,5 +39,5 @@ Content-Type: application/json
     "rating": 98
   }
 
-### borrar una review
+### borrar un juego
 DELETE http://localhost:3000/api/games/3
