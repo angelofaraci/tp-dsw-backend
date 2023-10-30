@@ -13,7 +13,7 @@ export class AdminRepository {
             return undefined
          }
         await newAdmin.save()
-        return jwt.sign({_id: newAdmin._id}, 'secretKey')
+        return jwt.sign({_id: newAdmin._id, class:Admin}, 'adminKey')
     }
 
 
@@ -24,7 +24,7 @@ export class AdminRepository {
             const adminLogIn = await AdminModel.findOne({email: email}) || undefined
             if (!adminLogIn) {throw new Error('Wrong Email')}
             if (adminLogIn.password !== password) {throw new Error('Wrong Password')}
-            return jwt.sign({_id: adminLogIn._id}, 'secretKey')
+            return jwt.sign({_id: adminLogIn._id, class:Admin}, 'adminKey')
         } catch(error: any){
              return error.message
         }   

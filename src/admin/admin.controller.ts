@@ -66,10 +66,14 @@ async function getAdminData(req:Request, res:Response, next: NextFunction){
         return res.status(401).send('Unauthorized request')
     }
 
-    const payload: any = jwt.verify(token, 'secretKey')
+    const payload: any = jwt.verify(token, 'adminKey')
     res.locals.adminId = payload._id
-   
+    res.locals.adminClass = payload.class
     next()
+}
+
+function verifyAdmin(req: Request, res: Response, next: NextFunction){
+    return res.status(400).json({response:true}) 
 }
 
 //finds an object by id and updates by the req body
@@ -93,5 +97,5 @@ async function remove(req: Request, res: Response) {
     }
       res.status(200).send({ message: 'Admin deleted successfully'})
   }
-export { sanitizeAdminInput, add, getOne, verifyToken, getAdminData, update, remove}
+export { sanitizeAdminInput, add, getOne, verifyToken, verifyAdmin, getAdminData, update, remove}
 
