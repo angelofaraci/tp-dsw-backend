@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { ReviewRepository } from './review.repository.js'
 import { User, UserModel } from '../user/user.entity.js'
+import { Types } from 'mongoose'
 
 const repository = new ReviewRepository()
 
@@ -9,7 +10,7 @@ const repository = new ReviewRepository()
 function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 
     req.body.sanitizedInput = {
-        id: req.body.id, //REVISAR!!!!!!!!!!!!!!
+        id: req.body._id, //REVISAR!!!!!!!!!!!!!!
         rating: req.body.rating,
         body : req.body.body,
         spoiler_check : req.body.spoiler_check,
@@ -67,9 +68,9 @@ async function add(req: Request, res: Response) {
 
 //finds an object by id and updates by the req body
 async function update(req: Request, res: Response) {
-    const input = req.body.sanitizedInput;
-    req.body.sanitizedInput.id = req.params.id
-    const review = await repository.update(input)
+    const input = req.body.review;
+    const userId = new Types.ObjectId(req.body.userId) 
+    const review = await repository.update(input, userId)
     if (!review) {
       return res.status(404).send({ message: 'Review not found' })
     }

@@ -6,7 +6,7 @@ export const reviewRouter = Router()
 reviewRouter.get('/', findAll)
 reviewRouter.get('/:id', findOne)
 reviewRouter.post('/', sanitizeReviewInput, add) //HAY QUE CAMBIAR LOS METODOS
-reviewRouter.put('/:id', sanitizeReviewInput, update)
+reviewRouter.put('/:id', update)
 reviewRouter.delete('/:id', remove)
 reviewRouter.post('/check', checkIfReviewed)
 reviewRouter.post('/getreviews', calculateScore, findAllForGame)

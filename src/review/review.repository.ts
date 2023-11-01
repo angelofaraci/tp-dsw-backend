@@ -45,8 +45,8 @@ public async calculateScore(gameId: any){
    }
 
 //searchs an object and updates it
-   public async update(item: Review): Promise < Review | undefined > {
-      const result = await ReviewModel.findOneAndUpdate(item)
+   public async update(item: Review, userId: Types.ObjectId): Promise < Review | undefined > {
+      const result = await ReviewModel.findOneAndUpdate({userId: userId}, item)
       return result || undefined
    }
 
