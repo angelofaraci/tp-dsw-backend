@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository.js';
 import { User, UserModel } from "./user.entity.js"
+import { ObjectId, Types } from 'mongoose';
+import { ReviewModel } from '../review/review.entity.js';
 
 const repository = UserModel
 
@@ -65,6 +67,8 @@ async function getUserData(req:Request, res:Response, next: NextFunction){
     return res.status(200).json({userData})
 }
 
+
+
 async function changeUsername(req:Request, res:Response, next: NextFunction){
     const username = req.body.username
     const exists = await repository.findOne({username:username})
@@ -103,5 +107,15 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel, changeUsername }
+async function deleteUser(req: Request, res: Response ){
+    const id: Types.ObjectId = new Types.ObjectId(req.params.id)
+    await ReviewModel.deleteMany({userId: id})
+    const result = await repository.findByIdAndDelete(id)
+    if (result){
+        return res.status(204).send('User deleted succesfully')
+    }
+    return res.status(401).send('Something went wrong')
+}
+
+export { deleteUser, sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel, changeUsername }
 

@@ -1,7 +1,7 @@
 import { User, UserModel } from "./user.entity.js"
 import jwt from 'jsonwebtoken'
 import { Review, ReviewModel } from "../review/review.entity.js"
-import mongoose from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 
 
@@ -66,6 +66,15 @@ export class UserRepository {
         const result = await UserModel.findOneAndUpdate(item)
         return result || undefined
      }
+
+    public async deleteUser(id: Types.ObjectId): Promise<User | undefined>{
+        const _userId = id
+        const result1 = await ReviewModel.findOneAndDelete({userId: _userId})
+        console.log(result1)
+        const result = await UserModel.findByIdAndDelete(_userId)
+        console.log('resultado usuario ', )
+        return result || undefined
+    }
 
         
 }
