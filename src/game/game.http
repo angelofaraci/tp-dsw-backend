@@ -13,7 +13,7 @@ Content-Type: application/json
 {
     "id": "3",
     "name": "The Legend Of Zelda: Tears of the Kingdom",
-    "description": "The Legend of Zelda: Tears of the Kingdom es un videojuego de acción-aventura de 2023 de la serie The Legend of Zelda, desarrollado por la filial Nintendo EPD en colaboración con Monolith Soft y publicado por Nintendo para la consola Nintendo Switch.",
+    "description": "Tras los acontecimientos de The Legend of Zelda: Breath of the Wild, la princesa Zelda junto a Link exploran los cimientos del castillo de Hyrule, en el que encuentran una sala donde reposa un cadáver momificado. Después de que el cadáver tome vida y se levante, ataca a Zelda y Link, dejando a este último malherido y rompiendo el filo de su Espada Maestra. Tras ello desata su poder rompiendo el sello que lo mantenía retenido y se eleva el castillo de Hyrule. Zelda sufre una caída mientras el sitio se derrumba y desaparece mágicamente. Link deberá encontrar a la princesa Zelda por cielo, tierra y subsuelo y así salvar al reino de Hyrule del resurgido Ganondorf, el rey demonio.",
     "cover": "https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_switch_4/2x1_NSwitch_TloZTearsOfTheKingdom_Gamepage.jpg",
     "release_date": "2023-05-12T03:00:00.000Z",
     "website": "",
