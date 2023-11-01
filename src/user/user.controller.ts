@@ -2,9 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository.js';
 import { User, UserModel } from "./user.entity.js"
-import { RefOptionIsUndefinedError } from '@typegoose/typegoose/lib/internal/errors.js';
 
-const repository = new UserRepository
+const repository = UserModel
 
 
 //verifies inputs
@@ -30,8 +29,8 @@ async function add (req: Request, res: Response, next: NextFunction) {
  
     const input = req.body.sanitizedInput
     input.level = 1;
-    const newUser = new UserModel(input)
-        if (await UserModel.findOne({email: input.email})){
+    const newUser = new repository(input)
+        if (await repository.findOne({email: input.email})){
             return undefined
          }
     await newUser.save()
@@ -47,7 +46,7 @@ async function getOne(req: Request, res: Response){
     const email = req.body.email
     const password  = req.body.password
     try{
-        const userLogIn = await UserModel.findOne({email: email}) || undefined
+        const userLogIn = await repository.findOne({email: email}) || undefined
         if (!userLogIn) {throw new Error('Wrong Email')}
         if (userLogIn.password !== password) {throw new Error('Wrong Password')}
         const token = jwt.sign({_id: userLogIn._id}, 'secretKey')
@@ -58,19 +57,29 @@ async function getOne(req: Request, res: Response){
     }   
 }
 
-
-
 //sends an _id to the repository and returns the correspondent JSON object
 
 async function getUserData(req:Request, res:Response, next: NextFunction){
-    const userData = await UserModel.findById(res.locals.userId)
+    const userData = await repository.findById(res.locals.userId)
     res.locals.user = userData
     return res.status(200).json({userData})
 }
 
+async function changeUsername(req:Request, res:Response, next: NextFunction){
+    const username = req.body.username
+    const exists = await repository.findOne({username:username})
+    if (exists) {return res.status(400).send({message:'This username is already taken'})}
+    const id = res.locals.userId
+    const user = await repository.findOneAndUpdate({_id:id}, {username:username}, {new: true})
+    if (user){
+        return res.status(200).json({user})
+    }
+    return res.status(401).send({message:'User not found'})
+}
+
 async function changeLevel(req:Request, res:Response, next:NextFunction) {
     const input = req.body.sanitizedInput
-    const user = await UserModel.findOneAndUpdate({email:input.email}, {level:input.level}, {new: true})
+    const user = await repository.findOneAndUpdate({email:input.email}, {level:input.level}, {new: true})
     if (user){
         return res.status(200).json({user})
     }
@@ -94,5 +103,5 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
     next()
 }
 
-export { sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel}
+export { sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel, changeUsername }
 
