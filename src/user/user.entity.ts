@@ -14,11 +14,11 @@ class User {
         @prop({type:String}) phone?:string;
         @prop({type:Number}) level!:number;
         //@prop({type:Types.ObjectId, ref: Review }) reviews?:Types.ObjectId[];
-}
+};
 
 
 const UserModel = getModelForClass(User, {schemaOptions:{
         timestamps: true
-}})
+}});
 
 export { UserModel, User }

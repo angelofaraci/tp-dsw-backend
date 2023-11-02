@@ -1,10 +1,10 @@
-import { Router } from 'express'
-import { sanitizeReviewInput, findAll, findOne, add, update, remove } from './company.controller.js'
+import { Router } from 'express';
+import { sanitizeCompanyInput, findAll, findOne, add, update, remove } from './company.controller.js';
 
-export const gameRouter = Router()
+export const companyRouter = Router();
 
-gameRouter.get('/', findAll)
-gameRouter.get('/:id', findOne)
-gameRouter.post('/', sanitizeReviewInput, add)
-gameRouter.put('/:id', sanitizeReviewInput, update)
-gameRouter.delete('/:id', remove)
+companyRouter.get('/', findAll);
+companyRouter.get('/:id', findOne);
+companyRouter.post('/', sanitizeCompanyInput, add);
+companyRouter.put('/:id', sanitizeCompanyInput, update);
+companyRouter.delete('/:id', remove);

@@ -1,4 +1,4 @@
-import { prop, getModelForClass} from "@typegoose/typegoose"
+import { prop, getModelForClass} from "@typegoose/typegoose";
 
 class Game{
     @prop({type:String}) id!:string;
@@ -9,7 +9,7 @@ class Game{
     @prop({type:String})  website?: string;
     @prop({type:[String]}) socials?: string[];
     @prop({type:Number}) rating?: number;
-}
+};
 
 const GameModel = getModelForClass(Game, {schemaOptions:{
     timestamps:true

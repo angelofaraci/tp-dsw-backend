@@ -1,4 +1,4 @@
-import { prop, getModelForClass } from "@typegoose/typegoose"
+import { prop, getModelForClass } from "@typegoose/typegoose";
 
 
 
@@ -8,11 +8,11 @@ class Admin {
         @prop({type:String}) name!:string;
         @prop({type:String}) email!:string;
         @prop({type:String}) password!:string;
-}
+};
 
 
 const AdminModel = getModelForClass(Admin, {schemaOptions:{
         timestamps: true
-}})
+}});
 
-export { AdminModel, Admin }
+export { AdminModel, Admin };

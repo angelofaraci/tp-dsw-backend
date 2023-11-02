@@ -1,4 +1,4 @@
-import { getModelForClass, prop } from "@typegoose/typegoose"
+import { getModelForClass, prop } from "@typegoose/typegoose";
 import { Types } from "mongoose";
 import { User } from "../user/user.entity.js";
 import { Game } from "../game/game.entity.js";
