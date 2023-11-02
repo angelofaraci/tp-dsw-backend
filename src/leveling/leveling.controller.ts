@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-import { LevelingRepository } from './leveling.repository.js'
+import { LevelingModel , Leveling} from "./leveling.entity.js"
 
-const repository = new LevelingRepository()
+const repository = LevelingModel
 
 
 //verifies inputs
@@ -11,7 +11,9 @@ function sanitizeLevelingInput(req:Request, res:Response, next: NextFunction ) {
         id: req.body.id, //REVISAR!!!!!!!!!!!!!!
         previousLevel: req.body.previousLevel,
         newLevel : req.body.newLevel,
-        observation: req.body.observation
+        observation: req.body.observation,
+        userId: req.body.userId,
+        adminId: req.body.adminId
     }
       next()
 
@@ -19,13 +21,13 @@ function sanitizeLevelingInput(req:Request, res:Response, next: NextFunction ) {
 
 //finds all objects in the schema
 async function findAll(req: Request, res: Response) {
-    res.json({ data: await repository.findAll() })
+    res.json({ data: await repository.find() })
 }
 
 //finds an object by id and returns its data
 async function findOne(req: Request, res: Response) {
     const id = req.params.id
-    const leveling = await repository.findOne({ id })
+    const leveling = await repository.findOne({ id:id }) || undefined
     if (!leveling) {
       return res.status(404).send({ message: 'Leveling not found' })
     }
@@ -37,19 +39,21 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
    
     const input = req.body.sanitizedInput;
-    const leveling = await repository.add(input);
-    if (!leveling){
-      return res.status(400).send({message: 'Leveling already exist'})
-    }
-    res.status(201).send({ message: 'Leveling created', data: leveling })
+    const leveling = await repository.findOne({id: input.id});
+    const newLeveling = new repository(input)
+      if (leveling){
+        return res.status(400).send({message: 'Leveling already exist'})
+      }
+      await newLeveling.save()
+      return res.status(201).send({ message: 'Leveling created', data: newLeveling })   
 }
 
 
 //finds an object by id and updates by the req body
 async function update(req: Request, res: Response) {
     const input = req.body.sanitizedInput;
-    req.body.sanitizedInput.id = req.params.id
-    const leveling = await repository.update(input)
+    const id =  req.params.id
+    const leveling = await repository.findOneAndUpdate({id:id},input)
     if (!leveling) {
       return res.status(404).send({ message: 'Leveling not found' })
     }
@@ -59,7 +63,7 @@ async function update(req: Request, res: Response) {
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
     const id = req.params.id
-    const leveling = await repository.remove({ id })
+    const leveling = await repository.findOneAndDelete({id:id})
   
     if (!leveling) {
       return res.status(404).send({ message: 'Leveling not found'})

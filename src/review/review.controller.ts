@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
-import { ReviewRepository } from './review.repository.js'
-import { User, UserModel } from '../user/user.entity.js'
+import { ReviewModel, Review } from "./review.entity.js"
+import { GameModel } from "../game/game.entity.js"
 import { Types } from 'mongoose'
 
-const repository = new ReviewRepository()
+const repository = ReviewModel
 
 
 //verifies inputs
@@ -24,33 +24,34 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 
 async function checkIfReviewed(req: Request, res:Response){
 
-  const userId = req.body.userId
-  const gameId = req.body.gameId
-  const reviewed = await repository.checkIfReviewed(userId, gameId)
+  const userId = new Types.ObjectId(req.body.userId)
+  const gameId = new Types.ObjectId(req.body.gameId)
+  const reviewed = await ReviewModel.findOne({ $and: [{ userId: userId }, { gameId: gameId }] }) || undefined
+  
   return res.status(200).json({isReviewed: reviewed})
 }
 
 //finds all objects in the schema
 async function findAll(req: Request, res: Response) {
-    res.json({ data: await repository.findAll() })
+    res.json({ data: await repository.find() })
 }
 
 
 //finds all reviews for a game
 async function findAllForGame(req: Request, res: Response){
-  const gameId = req.body.gameId
-  const reviews = await repository.findAllForGame(gameId)
+  const gameId:Types.ObjectId = new Types.ObjectId(req.body.gameId)
+  const reviews= await repository.find({ gameId: gameId }).populate('userId')
   res.status(200).json(reviews)
 }
 
 //finds an object by id and returns its data
 async function findOne(req: Request, res: Response) {
     const id = req.params.id
-    const review = await repository.findOne({ id })
+    const review = await ReviewModel.findOne({id: id}).populate('userId') || undefined
     if (!review) {
       return res.status(404).send({ message: 'Review not found' })
     }
-    res.json({ data: review })
+    res.status(200).json({ data: review })
 }
 
 
@@ -58,11 +59,13 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
    
     const input = req.body.sanitizedInput;
-    const review = await repository.add(input);
-    if (!review){
+    const newReview = new repository(input)
+    const review = await repository.findById(input.id)
+    if (review){
       return res.status(400).send({message: 'Review already exist'})
     }
-    res.status(201).send({ message: 'Review created', data: review })
+    await newReview.save()
+    res.status(201).send({ message: 'Review created', data: newReview })
 }
 
 
@@ -70,7 +73,7 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     const input = req.body.review;
     const userId = new Types.ObjectId(req.body.userId) 
-    const review = await repository.update(input, userId)
+    const review = await repository.findOneAndUpdate({userId: userId}, input)
     if (!review) {
       return res.status(404).send({ message: 'Review not found' })
     }
@@ -79,15 +82,28 @@ async function update(req: Request, res: Response) {
 
 async function calculateScore(req: Request, res:Response, next:NextFunction){
 
-const gameId = req.body.gameId
-await repository.calculateScore(gameId)
+const gameId = new Types.ObjectId(req.body.gameId)
+
+   const gameReviews: any = await ReviewModel.find({ gameId: gameId }) || undefined
+   let scoreAcum = 0
+      for(let i=0; i<gameReviews.length; i++){
+         scoreAcum = scoreAcum + gameReviews[i].rating
+      }
+   const calculatedRating = scoreAcum / gameReviews.length
+   const calculatedRatingRounded = Math.round(calculatedRating)
+
+   const game: any = await GameModel.findById(gameId) || undefined
+   game.rating = calculatedRatingRounded
+
+   const result = await GameModel.findByIdAndUpdate(gameId, game) || undefined
+
 next()
 }
 
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
     const id = req.params.id 
-    const review = await repository.remove(id)
+    const review = await repository.findOneAndDelete(new Types.ObjectId(id)) || undefined
   
     if (!review) {
       return res.status(404).send({ message: 'Review not found'})

@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
-import { UserRepository } from './user.repository.js';
 import { User, UserModel } from "./user.entity.js"
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { ReviewModel } from '../review/review.entity.js';
 
 const repository = UserModel
@@ -43,6 +42,8 @@ async function add (req: Request, res: Response, next: NextFunction) {
     res.status(201).json({token})
 }
 
+//sends email and password of an User and returns the correspondent JSON object
+
 async function getOne(req: Request, res: Response){
 
     const email = req.body.email
@@ -67,7 +68,7 @@ async function getUserData(req:Request, res:Response, next: NextFunction){
     return res.status(200).json({userData})
 }
 
-
+//change the username of an User
 
 async function changeUsername(req:Request, res:Response, next: NextFunction){
     const username = req.body.username
@@ -80,6 +81,8 @@ async function changeUsername(req:Request, res:Response, next: NextFunction){
     }
     return res.status(401).send({message:'User not found'})
 }
+
+//change the level of an User
 
 async function changeLevel(req:Request, res:Response, next:NextFunction) {
     const input = req.body.sanitizedInput
@@ -106,6 +109,8 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
    
     next()
 }
+
+//delete an User by its id
 
 async function deleteUser(req: Request, res: Response ){
     const id: Types.ObjectId = new Types.ObjectId(req.params.id)
