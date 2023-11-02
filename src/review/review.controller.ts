@@ -73,7 +73,8 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     const input = req.body.review;
     const userId = new Types.ObjectId(req.body.userId) 
-    const review = await repository.findOneAndUpdate({userId: userId}, input)
+    const gameId = new Types.ObjectId(req.body.gameId) 
+    const review = await repository.findOneAndUpdate({userId: userId, gameId: gameId}, input)
     if (!review) {
       return res.status(404).send({ message: 'Review not found' })
     }
