@@ -54,7 +54,7 @@ async function getOne(req: Request, res: Response){
         const token = jwt.sign({_id: userLogIn._id}, 'secretKey');
         return res.status(200).json({token})
     } catch(error: any){
-        return res.status(401).send({message:error.message})
+        return res.status(401).send(error.message)
     }   
 };
 

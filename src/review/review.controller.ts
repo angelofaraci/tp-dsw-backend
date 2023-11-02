@@ -22,6 +22,8 @@ function sanitizeReviewInput(req:Request, res:Response, next: NextFunction ) {
 
 };
 
+//checks if an user reviewed a game
+
 async function checkIfReviewed(req: Request, res:Response){
 
   const userId = new Types.ObjectId(req.body.userId);
@@ -80,6 +82,8 @@ async function update(req: Request, res: Response) {
     };
     return res.status(200).send({ message: 'Review updated successfully', data: review })
 };
+
+//calculates the average score for a game
 
 async function calculateScore(req: Request, res:Response, next:NextFunction){
 
