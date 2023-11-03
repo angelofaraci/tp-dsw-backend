@@ -54,9 +54,9 @@ async function add(req: Request, res: Response) {
 
 //finds an object by id and updates by the req body
 async function update(req: Request, res: Response) {
-    req.body.sanitizedInput.id = req.params.id;
+    const game_id = new Types.ObjectId(req.params.id) 
     const input = req.body.sanitizedInput;
-    const game = await repository.findOneAndUpdate({id: input.id}, input);
+    const game = await repository.findOneAndUpdate({_id: game_id}, input);
     if (!game) {
       return res.status(404).send({ message: 'Game not found' })
     };
