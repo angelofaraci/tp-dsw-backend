@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { GameModel, Game } from "./game.entity.js";
+import { ReviewModel } from '../review/review.entity.js';
+import { Types } from 'mongoose';
 
 const repository = GameModel;
 
@@ -64,13 +66,13 @@ async function update(req: Request, res: Response) {
 
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
-    const id = req.params.id;
-    const game = await repository.findOneAndDelete({id:id});
-    if (!game) {
-      return res.status(404).send({ message: 'Game not found' })
-    };
-      return res.status(200).send({ message: 'Game deleted successfully' })
+  const id: Types.ObjectId = new Types.ObjectId(req.params.id);
+  await ReviewModel.deleteMany({gameId: id});
+  const game = await repository.findByIdAndDelete(id);
+  if (game) {
+    return res.status(204).send({ message: 'Game deleted successfully' })
+  };
+  return res.status(401).send('Something went wrong')
     
   };
-  
   export { sanitizeReviewInput, findAll, findOne, add, update, remove };
