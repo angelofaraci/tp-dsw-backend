@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { sanitizeReviewInput, findAll, findOne, add, update, remove } from './game.controller.js';
+import { sanitizeGameInput, findAll, findOne, add, update, remove } from './game.controller.js';
 
 export const gameRouter = Router();
 
 gameRouter.get('/', findAll);
 gameRouter.get('/:id', findOne);
-gameRouter.post('/', sanitizeReviewInput, add);
-gameRouter.put('/:id', sanitizeReviewInput, update);
+gameRouter.post('/', sanitizeGameInput, add);
+gameRouter.put('/:id', sanitizeGameInput, update);
 gameRouter.delete('/:id', remove);
