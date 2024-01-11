@@ -1,4 +1,4 @@
-### obtener un usuario
+### crear un admin
 POST http://localhost:3000/api/admin/signup
 Content-Type: application/json
 
