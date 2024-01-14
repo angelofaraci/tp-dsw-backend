@@ -5,6 +5,7 @@ class Game{
     @prop({type:String}) name!:string;
     @prop({type:String}) description?: string;
     @prop({type:String}) cover?: string;
+    @prop({type:String}) banner?: string;
     @prop({type:Date}) release_date?: string;
     @prop({type:String})  website?: string;
     @prop({type:[String]}) socials?: string[];

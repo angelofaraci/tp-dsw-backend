@@ -14,13 +14,76 @@ Content-Type: application/json
     "id": "3",
     "name": "The Legend Of Zelda: Tears of the Kingdom",
     "description": "Tras los acontecimientos de The Legend of Zelda: Breath of the Wild, la princesa Zelda junto a Link exploran los cimientos del castillo de Hyrule, en el que encuentran una sala donde reposa un cadáver momificado. Después de que el cadáver tome vida y se levante, ataca a Zelda y Link, dejando a este último malherido y rompiendo el filo de su Espada Maestra. Tras ello desata su poder rompiendo el sello que lo mantenía retenido y se eleva el castillo de Hyrule. Zelda sufre una caída mientras el sitio se derrumba y desaparece mágicamente. Link deberá encontrar a la princesa Zelda por cielo, tierra y subsuelo y así salvar al reino de Hyrule del resurgido Ganondorf, el rey demonio.",
-    "cover": "https://i.ibb.co/cbdpQfG/2x1-NSwitch-Tlo-ZTears-Of-The-Kingdom-Gamepage.jpg",
+    "cover": "https://i.ibb.co/QHvbTJW/17111253-the-legend-of-zelda-tears-of-the-kingdom-nintendo-switch-front-c.jpg",
+    "banner":"https://i.ibb.co/cbdpQfG/2x1-NSwitch-Tlo-ZTears-Of-The-Kingdom-Gamepage.jpg"
     "release_date": "2023-05-12T03:00:00.000Z",
     "website": "",
     "socials": [],
     "rating": 0
 }
 
+
+### crear un juego
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "4",
+    "name": "Lies Of P",
+    "description": "Lies of P es un soulslike en tercera persona donde el jugador controla al humanoide Pinocho y recorre a pie la ciudad de Krat, explorando el entorno y luchando contra varios enemigos biomecánicos. El jugador usa un arsenal de armas como una espada y un hacha y puede esquivar y bloquear golpes de sus enemigos. Pinocho tiene un brazo mecánico que puede equiparse con dispositivos como un gancho de agarre para atraer a los enemigos o un lanzallamas. El sistema de armas y elaboración ofrece 30 tipos de armas diferentes con 100 combinaciones. El videojuego presenta un Sistema de mentiras donde las decisiones que toma el jugador durante ciertos pasajes afectan el curso de los eventos, lo que lleva a tres finales diferentes. La jugabilidad de Lies of P ha sido llamada soulslike y es comparada con la de Dark Souls y Bloodborne.",
+    "cover": "",
+    "banner": "",
+    "release_date": "",
+    "website": "",
+    "socials": [],
+    "rating": 0
+}
+
+### crear un juego
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "",
+    "name": "",
+    "description": "",
+    "cover": "",
+    "banner": "",
+    "release_date": "",
+    "website": "",
+    "socials": [],
+    "rating": 0
+}
+### crear un juego
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "",
+    "name": "",
+    "description": "",
+    "cover": "",
+    "banner": "",
+    "release_date": "",
+    "website": "",
+    "socials": [],
+    "rating": 0
+}
+### crear un juego
+POST http://localhost:3000/api/games
+Content-Type: application/json
+
+{
+    "id": "",
+    "name": "",
+    "description": "",
+    "cover": "",
+    "banner": "",
+    "release_date": "",
+    "website": "",
+    "socials": [],
+    "rating": 0
+}
 
 ### modificar un juego
 PUT http://localhost:3000/api/games/2
