@@ -3,7 +3,7 @@ GET http://localhost:3000/api/games
 
 
 ### obtener un juego
-GET http://localhost:3000/api/games/3
+GET http://localhost:3000/api/games/date/3
 
 
 ### crear un juego

@@ -36,13 +36,20 @@ async function findOne(req: Request, res: Response) {
   return res.status(200).json({ data: game });
 }
 
+//finds the quantity of objects desired by date and returns its data
+async function findCantByDate(req: Request, res: Response) {
+  const cant = +req.params.cant
+  
+  return res.status(200).json({ data: await repository.find().limit(cant).sort({release_date: 'desc'}) });
+}
+
+
 //adds an object to the repository
 async function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
-  console.log(input)
-  const game = await repository.findOne({id: input.id});
+  const game = await repository.findOne({name: input.name});
   if (game) {
-    return res.status(400).send({ message: "Game already exists" });
+    return res.status(400).send({ message: "Game with that name already exists" });
   }
   const newGame = new repository(input);
   newGame.save();
@@ -72,4 +79,4 @@ async function remove(req: Request, res: Response) {
   }
   return res.status(401).send("Something went wrong");
 }
-export { sanitizeGameInput, findAll, findOne, add, update, remove };
+export { sanitizeGameInput, findAll, findOne, findCantByDate, add, update, remove };
