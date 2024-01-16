@@ -103,4 +103,4 @@ Content-Type: application/json
   }
 
 ### borrar un juego
-DELETE http://localhost:3000/api/games/3
+DELETE http://localhost:3000/api/games/65a6c9102b1071e4bd5eadc4

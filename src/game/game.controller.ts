@@ -75,7 +75,7 @@ async function remove(req: Request, res: Response) {
   await ReviewModel.deleteMany({ gameId: id });
   const game = await repository.findByIdAndDelete(id);
   if (game) {
-    return res.status(204).send({ message: "Game deleted successfully" });
+    return res.status(204).send({ message: "Game deleted successfully", data: game });
   }
   return res.status(401).send("Something went wrong");
 }

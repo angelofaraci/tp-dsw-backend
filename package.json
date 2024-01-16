@@ -5,7 +5,8 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest --detectOpenHandles" ,
+    "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest --verbose " ,
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' npx jest --verbose --watch",
     "build": "tsc -p ./tsconfig.json",
     "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node  ./dist/src/app.js\""
   },
