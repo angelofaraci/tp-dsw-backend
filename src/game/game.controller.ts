@@ -12,6 +12,7 @@ function sanitizeGameInput(req: Request, res: Response, next: NextFunction) {
     name: req.body.name,
     description: req.body.description,
     cover: req.body.cover,
+    banner: req.body.banner,
     release_date: req.body.release_date,
     website: req.body.website,
     socials: req.body.socials,
