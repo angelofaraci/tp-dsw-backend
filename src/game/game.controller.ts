@@ -48,13 +48,17 @@ async function findCantByDate(req: Request, res: Response) {
 //adds an object to the repository
 async function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
+  
   const game = await repository.findOne({name: input.name});
   if (game) {
     return res.status(400).send({ message: "Game with that name already exists" });
   }
   const newGame = new repository(input);
-  newGame.save();
-  return res.status(201).send({ message: "Game created", data: newGame });
+  if(newGame.id && newGame.name){
+    newGame.save();
+    return res.status(201).send({ message: "Game created", data: newGame });
+
+  } else return res.status(400).send({message: "Invalid input"})
 }
 
 //finds an object by id and updates by the req body
