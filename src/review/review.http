@@ -8,7 +8,7 @@ GET http://localhost:3000/api/reviews
 GET http://localhost:3000/api/reviews/1
 
 ### crear una review
-POST http://localhost:3000/api/reviews/
+POST http://localhost:3000/api/reviews/getreviews/user
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
     "private": false,
     "id": "1",
     "gameId":"652a876a9b4b484ccfd0349d",
-    "userId":"652c535e1d3a65e7fcc39c71"
+    "userId":"65446d97f18a313ca0afc897"
 }
 
 ### modificar una review

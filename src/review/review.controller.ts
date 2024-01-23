@@ -46,6 +46,13 @@ async function findAllForGame(req: Request, res: Response){
   return res.status(200).json(reviews)
 };
 
+//finds all reviews for an user
+async function findAllForUser(req: Request, res: Response){
+  const userId:Types.ObjectId = new Types.ObjectId(req.body.userId);
+  const reviews= await repository.find({ userId: userId }).populate('gameId');
+  return res.status(200).json(reviews)
+};
+
 //finds an object by id and returns its data
 async function findOne(req: Request, res: Response) {
     const id = req.params.id;
@@ -112,4 +119,4 @@ async function remove(req: Request, res: Response) {
       return res.status(200).send({ message: 'Review deleted successfully'})
   };
   
-  export { calculateScore, sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed, findAllForGame };
+  export { calculateScore, sanitizeReviewInput, findAll, findOne, add, update, remove, checkIfReviewed, findAllForGame, findAllForUser };
