@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { GameModel, Game } from "./game.entity.js";
-import { ReviewModel } from "../review/review.entity.js";
+import { CounterModel } from "../counter/counter.entity.js";
 import { Types } from "mongoose";
 
 const repository = GameModel;
+const counter = CounterModel;
 
 //verifies inputs
 function sanitizeGameInput(req: Request, res: Response, next: NextFunction) {
@@ -48,11 +49,13 @@ async function findCantByDate(req: Request, res: Response) {
 //adds an object to the repository
 async function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
-  
   const game = await repository.findOne({name: input.name});
+  
   if (game) {
     return res.status(400).send({ message: "Game with that name already exists" });
   }
+  const newId = (await counter.findOneAndUpdate({},{$inc:{game_id: 1}},{returnNewDocument: false, upsert : true}))?.game_id
+  input.id = newId
   const newGame = new repository(input);
   if(newGame.id && newGame.name){
     newGame.save();
@@ -76,11 +79,11 @@ async function update(req: Request, res: Response) {
 
 //finds an object by id and deletes it
 async function remove(req: Request, res: Response) {
-  const id: Types.ObjectId = new Types.ObjectId(req.params.id);
-  await ReviewModel.deleteMany({ gameId: id });
-  const game = await repository.findByIdAndDelete(id);
+  const id = req.params.id
+  const game = await repository.findOne({id:id})
   if (game) {
-    return res.status(204).send({ message: "Game deleted successfully", data: game });
+    await repository.deleteOne({ id: id });
+    return res.status(200).send({ message: "Game deleted successfully", data: game });
   }
   return res.status(401).send("Something went wrong");
 }
