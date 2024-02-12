@@ -91,6 +91,15 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
     return res.status(401).send({message:'User not found'})
 }
 
+async function getOneUserPublicData(req: Request, res: Response){
+    const input = await repository.findOne({username: req.params.username})
+    const publicInput =  {_id: input?._id ,username: req.params.username, level: input?.level, score: input?.score}
+    if (publicInput){
+        return res.status(200).json({publicInput})
+    }
+    return res.status(401).send({message: 'User not found'})
+}
+
 //verifies token validity
 
  function verifyToken(req: Request, res: Response, next: NextFunction) {
@@ -118,5 +127,5 @@ async function deleteUser(req: Request, res: Response ){
     return res.status(401).send('Something went wrong')
 }
 
-export { deleteUser, sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel, changeUsername }
+export { deleteUser, sanitizeUserInput, add, getOne, verifyToken, getUserData , changeLevel, changeUsername, getOneUserPublicData }
 
