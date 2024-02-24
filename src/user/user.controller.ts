@@ -92,8 +92,8 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
 }
 
 async function getOneUserPublicData(req: Request, res: Response){
-    const input = await repository.findOne({username: req.params.username})
-    const publicInput =  {_id: input?._id ,username: req.params.username, level: input?.level, score: input?.score}
+    const input = await repository.findOne({email: req.params.email})
+    const publicInput =  {_id: input?._id, email: req.params.email ,username: input?.username, level: input?.level, score: input?.score}
     if (publicInput){
         return res.status(200).json({publicInput})
     }
