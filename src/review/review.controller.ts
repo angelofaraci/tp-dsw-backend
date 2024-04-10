@@ -40,15 +40,19 @@ async function findAll(req: Request, res: Response) {
 //finds all reviews for a game
 async function findAllForGame(req: Request, res: Response) {
   const gameId: Types.ObjectId = new Types.ObjectId(req.body.gameId);
-  const reviews = await repository.find({ gameId: gameId }).populate("userId");
+  const reviews = await repository
+    .find({ gameId: gameId })
+    .populate({ path: "userId", select: "username score email level" });
   return res.status(200).json(reviews);
 }
 
 //finds all reviews for an user
 async function findAllForUser(req: Request, res: Response) {
   const userId: Types.ObjectId = new Types.ObjectId(req.body.userId);
-  console.log(userId)
-  const reviews = await repository.find({ userId: userId }).populate("gameId");
+  console.log(userId);
+  const reviews = await repository
+    .find({ userId: userId })
+    .populate({ path: "userId", select: "username score email level" });
   return res.status(200).json(reviews);
 }
 
@@ -56,7 +60,10 @@ async function findAllForUser(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   const id = req.params.id;
   const review =
-    (await ReviewModel.findOne({ id: id }).populate("userId")) || undefined;
+    (await ReviewModel.findOne({ id: id }).populate({
+      path: "userId",
+      select: "username score email level",
+    })) || undefined;
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
   }
