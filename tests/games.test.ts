@@ -6,6 +6,7 @@ const api = supertest(app);
 import { Game, GameModel } from "../src/game/game.entity.js";
 
 let _idGame = "";
+let idGame = ""
 
 test("return all games in JSON format", async () => {
   await api
@@ -16,8 +17,8 @@ test("return all games in JSON format", async () => {
 
 test("a valid game can be added", async () => {
   const newGame: Game = {
-    id: "10",
     name: "Mario",
+    id: ""
   };
   const response = await api
     .post("/api/games")
@@ -25,23 +26,24 @@ test("a valid game can be added", async () => {
     .expect(201)
     .expect("Content-Type", /application\/json/);
   _idGame = response.body.data._id;
+  idGame = response.body.data.id
 });
 
 test("a game can be found", async () => {
   await api
-    .get(`/api/games/10`)
+    .get(`/api/games/${idGame}`)
     .expect(200)
     .expect("Content-Type", /application\/json/);
 });
 
 test("a game can be deleted", async () => {
-  await api.delete(`/api/games/${_idGame}`).expect(204);
+  await api.delete(`/api/games/${idGame}`).expect(200);
 });
 
 test("a game without name or id cant be created", async () => {
   await api
     .post("/api/games")
-    .send({ name: "example" })
+    .send({})
     .expect(400)
     .expect({ message: "Invalid input" });
 });
