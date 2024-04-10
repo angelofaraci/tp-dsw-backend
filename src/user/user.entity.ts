@@ -7,7 +7,7 @@ import { Review } from "../review/review.entity.js";
 class User {
         @prop({type:String}) profilePicture?:string;
         @prop({type:String}) id!:string;
-        @prop({type:String}) username!:string;
+        @prop({type:String, unique:true}) username!:string;
         @prop({type:Number}) score?:number;
         @prop({type:String}) email!:string;
         @prop({type:String}) password!:string;

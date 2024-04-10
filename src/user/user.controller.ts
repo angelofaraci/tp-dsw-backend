@@ -31,9 +31,13 @@ async function add (req: Request, res: Response, next: NextFunction) {
     const input = req.body.sanitizedInput;
     input.level = 1;
     input.score = 0;
-    const user = await repository.findOne({email: input.email});
+    const user = await repository.findOne({$or: [{email: input.email}, {username: input.username}]});
+    console.log(user)
     if (user){
-        return res.status(400).send({message:'User already exists'})
+        if (user.email = input.email){
+            return res.status(400).send({message:'User with that email already exists'})
+        }
+        return res.status(400).send({message:'Username taken'})
     }
     const newUser = new repository(input);
     await newUser.save();
@@ -92,9 +96,9 @@ async function changeLevel(req:Request, res:Response, next:NextFunction) {
 }
 
 async function getOneUserPublicData(req: Request, res: Response){
-    const input = await repository.findOne({email: req.params.email})
-    const publicInput =  {_id: input?._id, email: req.params.email ,username: input?.username, level: input?.level, score: input?.score}
-    if (publicInput){
+    const input = await repository.findOne({username: req.params.username})
+    const publicInput =  {_id: input?._id, email :input?.email ,username: req.params.username, level: input?.level, score: input?.score}
+    if (input){
         return res.status(200).json({publicInput})
     }
     return res.status(401).send({message: 'User not found'})

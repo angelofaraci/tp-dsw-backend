@@ -19,6 +19,7 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
+    "username":"level",
     "email":"level@gmail.com",
     "password":"password"
 }
@@ -28,6 +29,7 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
+    "username":"example",
     "email":"example@gmail.com",
     "password":"password"
 }
@@ -42,4 +44,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un usuario
-DELETE http://localhost:3000/api/user/653ea72c2ee55c002e44093e
+DELETE http://localhost:3000/api/user/66170532480105b57e347212
