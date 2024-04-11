@@ -75,7 +75,6 @@ async function getUserData(req: Request, res: Response, next: NextFunction) {
 }
 
 async function getAllUsersPublicData(req: Request, res: Response) {
-    console.log('llega')
   const input = await repository.find();
   const users = input.map((user) => ({
     username: user.username,
@@ -84,7 +83,6 @@ async function getAllUsersPublicData(req: Request, res: Response) {
     score: user.score,
   }));
   if (users){
-    console.log(users)
     return res.status(200).json(users)
   }
   return res.status(401).send({message: 'There was an error'})
