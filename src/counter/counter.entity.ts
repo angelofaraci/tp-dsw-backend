@@ -1,9 +1,9 @@
-import { prop, getModelForClass} from "@typegoose/typegoose";
+import { prop, getModelForClass } from "@typegoose/typegoose";
 
-class Counter{
-    @prop({type:Number}) game_id!:number;
-};
+class Counter {
+  @prop({ type: Number }) game_id!: number;
+}
 
 const CounterModel = getModelForClass(Counter);
 
-export {CounterModel, Counter}
+export { CounterModel, Counter };

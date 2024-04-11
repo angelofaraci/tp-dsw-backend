@@ -9,7 +9,7 @@ const counter = CounterModel;
 //verifies inputs
 function sanitizeGameInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    id: req.body.id, //REVISAR!!!!!!!!!!!!!!
+    id: req.body.id, 
     name: req.body.name,
     description: req.body.description,
     cover: req.body.cover,
@@ -23,12 +23,12 @@ function sanitizeGameInput(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-//finds all objects in the schema
+//finds all games in the schema
 async function findAll(req: Request, res: Response) {
   res.status(200).json({ data: await repository.find() });
 }
 
-//finds an object by id and returns its data
+//finds a game by id and returns its data
 async function findOne(req: Request, res: Response) {
   const id = req.params.id;
   const game = await repository.findOne({ id: id });
@@ -38,33 +38,43 @@ async function findOne(req: Request, res: Response) {
   return res.status(200).json({ data: game });
 }
 
-//finds the quantity of objects desired by date and returns its data
+//finds the games desired by date and returns its data
 async function findCantByDate(req: Request, res: Response) {
-  const cant = +req.params.cant
-  
-  return res.status(200).json({ data: await repository.find().limit(cant).sort({release_date: 'desc'}) });
+  const cant = +req.params.cant;
+
+  return res
+    .status(200)
+    .json({
+      data: await repository.find().limit(cant).sort({ release_date: "desc" }),
+    });
 }
 
-
-//adds an object to the repository
+//adds a game to the repository
 async function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
-  const game = await repository.findOne({name: input.name});
-  
+  const game = await repository.findOne({ name: input.name });
+
   if (game) {
-    return res.status(400).send({ message: "Game with that name already exists" });
+    return res
+      .status(400)
+      .send({ message: "Game with that name already exists" });
   }
-  const newId = (await counter.findOneAndUpdate({},{$inc:{game_id: 1}},{returnNewDocument: false, upsert : true}))?.game_id
-  input.id = newId
+  const newId = (
+    await counter.findOneAndUpdate(
+      {},
+      { $inc: { game_id: 1 } },
+      { returnNewDocument: false, upsert: true }
+    )
+  )?.game_id;
+  input.id = newId;
   const newGame = new repository(input);
-  if(newGame.id && newGame.name){
+  if (newGame.id && newGame.name) {
     newGame.save();
     return res.status(201).send({ message: "Game created", data: newGame });
-
-  } else return res.status(400).send({message: "Invalid input"})
+  } else return res.status(400).send({ message: "Invalid input" });
 }
 
-//finds an object by id and updates by the req body
+//finds a game by id and updates by the req body
 async function update(req: Request, res: Response) {
   const game_id = new Types.ObjectId(req.params.id);
   const input = req.body.sanitizedInput;
@@ -77,14 +87,24 @@ async function update(req: Request, res: Response) {
     .send({ message: "Game updated successfully", data: game });
 }
 
-//finds an object by id and deletes it
+//finds a game by id and deletes it
 async function remove(req: Request, res: Response) {
-  const id = req.params.id
-  const game = await repository.findOne({id:id})
+  const id = req.params.id;
+  const game = await repository.findOne({ id: id });
   if (game) {
     await repository.deleteOne({ id: id });
-    return res.status(200).send({ message: "Game deleted successfully", data: game });
+    return res
+      .status(200)
+      .send({ message: "Game deleted successfully", data: game });
   }
   return res.status(401).send("Something went wrong");
 }
-export { sanitizeGameInput, findAll, findOne, findCantByDate, add, update, remove };
+export {
+  sanitizeGameInput,
+  findAll,
+  findOne,
+  findCantByDate,
+  add,
+  update,
+  remove,
+};

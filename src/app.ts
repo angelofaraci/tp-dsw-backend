@@ -11,7 +11,7 @@ import { levelingRouter } from "./leveling/leveling.routes.js";
 import { companyRouter } from "./company/company.routes.js";
 
 const PORT = process.env.PORT ?? 3000;
-const CONNECT = process.env.CONNECT ?? 'mongodb://localhost/tp-database'
+const CONNECT = process.env.CONNECT ?? "mongodb://localhost/tp-database";
 
 //database initialization
 
@@ -23,8 +23,6 @@ mongoose
 export const app = express();
 app.use(cors());
 app.use(express.json());
-
-
 
 //routers
 
@@ -44,4 +42,3 @@ app.use((_, res) => {
 export const server = app.listen(PORT, () => {
   console.log(`Server runnning on http://localhost:${PORT}/`);
 });
-

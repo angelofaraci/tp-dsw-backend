@@ -49,6 +49,8 @@ async function getOne(req: Request, res: Response) {
     return res.status(401).send({ message: error.message });
   }
 }
+
+
 //sends an _id to the repository and returns the correspondent JSON object
 
 async function getAdminData(req: Request, res: Response, next: NextFunction) {
