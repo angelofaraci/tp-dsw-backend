@@ -31,14 +31,14 @@ async function add(req: Request, res: Response, next: NextFunction) {
   const user = await repository.findOne({
     $or: [{ email: input.email }, { username: input.username }],
   });
-  console.log(user);
+ 
   if (user) {
-    if ((user.email = input.email)) {
+    if ((user.email == input.email)) {
       return res
         .status(400)
-        .send({ message: "User with that email already exists" });
+        .send({ message: "User with that email already exists", case:'email' });
     }
-    return res.status(400).send({ message: "Username taken" });
+    return res.status(400).send({ message: "Username taken", case:'username' });
   }
   const newUser = new repository(input);
   await newUser.save();
@@ -51,19 +51,16 @@ async function add(req: Request, res: Response, next: NextFunction) {
 async function getOne(req: Request, res: Response) {
   const email = req.body.email;
   const password = req.body.password;
-  try {
     const userLogIn = (await repository.findOne({ email: email })) || undefined;
     if (!userLogIn) {
-      throw new Error("This email does not correspond to any account");
+      return res.status(401).send({message: "This email does not correspond to any account", case:'email'});
     }
     if (userLogIn.password !== password) {
-      throw new Error("Wrong Password");
+      return res.status(401).send({message: "Wrong Password", case:'password'});
     }
     const token = jwt.sign({ _id: userLogIn._id }, "secretKey");
     return res.status(200).json({ token });
-  } catch (error: any) {
-    return res.status(401).send(error.message);
-  }
+
 }
 
 //sends an _id to the repository and returns the correspondent JSON object
