@@ -10,10 +10,13 @@ import { adminRouter } from "./admin/admin.routes.js";
 import { levelingRouter } from "./leveling/leveling.routes.js";
 import { companyRouter } from "./company/company.routes.js";
 
+const PORT = process.env.PORT ?? 3000;
+const CONNECT = process.env.CONNECT ?? 'mongodb://localhost/tp-database'
+
 //database initialization
 
 mongoose
-  .connect("mongodb://localhost/tp-database", {})
+  .connect(`${CONNECT}`, {})
   .then((db) => console.log("Database is Connected"))
   .catch((err) => console.log(err));
 
@@ -21,7 +24,7 @@ export const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT ?? 3000;
+
 
 //routers
 
