@@ -8,7 +8,7 @@ const repository = AdminModel;
 
 function sanitizeAdminInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    id: req.body.id, //REVISAR!!!!!!!!!!!!!!
+    id: req.body.id, 
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,

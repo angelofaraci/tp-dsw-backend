@@ -4,8 +4,8 @@ import { User } from "../user/user.entity.js";
 import { Game } from "../game/game.entity.js";
 
 class LikeState {
-  @prop({type: String}) userId!: string;
-  @prop({type: String}) state!: string;
+  @prop({ type: String }) userId!: string;
+  @prop({ type: String }) state!: string;
 }
 
 class Review {

@@ -49,7 +49,6 @@ async function findAllForGame(req: Request, res: Response) {
 //finds all reviews for an user
 async function findAllForUser(req: Request, res: Response) {
   const userId: Types.ObjectId = new Types.ObjectId(req.body.userId);
-  console.log(userId);
   const reviews = await repository
     .find({ userId: userId })
     .populate({ path: "userId", select: "username score email level" });

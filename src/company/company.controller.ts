@@ -6,7 +6,7 @@ const repository = CompanyModel;
 //verifies inputs
 function sanitizeCompanyInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
-    id: req.body.id, //REVISAR!!!!!!!!!!!!!!
+    id: req.body.id, 
     name: req.body.name,
     website: req.body.website,
     socials: req.body.socials,
