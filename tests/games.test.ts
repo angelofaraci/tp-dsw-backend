@@ -3,7 +3,7 @@ import supertest from "supertest";
 import { test } from "@jest/globals";
 import mongoose from "mongoose";
 const api = supertest(app);
-import { Game, GameModel } from "../src/game/game.entity.js";
+import { Game } from "../src/game/game.entity.js";
 
 let _idGame = "";
 let idGame = ""
@@ -35,6 +35,18 @@ test("a game can be found", async () => {
     .expect(200)
     .expect("Content-Type", /application\/json/);
 });
+
+test("a game's name can be changed", async () => {
+  const updatedGame: Game = {
+    name: "Sonic",
+    id: ""
+  }
+  await api
+    .put(`/api/games/${idGame}`)
+    .send(updatedGame)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+})
 
 test("a game can be deleted", async () => {
   await api.delete(`/api/games/${idGame}`).expect(200);
