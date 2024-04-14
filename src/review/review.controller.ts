@@ -2,8 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { ReviewModel, Review } from "./review.entity.js";
 import { GameModel } from "../game/game.entity.js";
 import { Types } from "mongoose";
+import { UserModel } from "../user/user.entity.js";
 
 const repository = ReviewModel;
+const userRepository = UserModel;
 
 //verifies inputs
 function sanitizeReviewInput(req: Request, res: Response, next: NextFunction) {
@@ -131,7 +133,9 @@ async function remove(req: Request, res: Response) {
 async function updateLikes(req: Request, res: Response) {
   const review = await repository.findOne({ _id: req.params.reviewId });
   const userId = req.params.userId;
-  if (review) {
+  const user = await userRepository.findOne({ _id: userId });
+
+  if (review && user) {
     let likeStateIndex: any = review.likeState.findIndex(
       (state) => state.userId === userId
     );
@@ -143,41 +147,48 @@ async function updateLikes(req: Request, res: Response) {
       (state) => state.userId === userId
     );
 
-    if (req.params.action === "removeLike") {
-      review.likes = review.likes - 1;
-      review.likeState[likeStateIndex].state = "neutral";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
+    switch (req.params.action) {
+      case "removeLike":
+        review.likes -= 1;
+        user.score -= 1;
+        review.likeState[likeStateIndex].state = "neutral";
+        break;
+      case "removeDislike":
+        review.likes += 1;
+        user.score += 1;
+        review.likeState[likeStateIndex].state = "neutral";
+        break;
+      case "likeFromDislike":
+        review.likes += 2;
+        user.score += 2;
+        review.likeState[likeStateIndex].state = "like";
+        break;
+      case "dislikeFromLike":
+        review.likes -= 2;
+        user.score -= 2;
+        review.likeState[likeStateIndex].state = "dislike";
+        break;
+      case "dislike":
+        review.likes -= 1;
+        user.score -= 1;
+        review.likeState[likeStateIndex].state = "dislike";
+        break;
+      case "like":
+        review.likes += 1;
+        user.score += 1;
+        review.likeState[likeStateIndex].state = "like";
+        break;
+      default:
+        break;
     }
-    if (req.params.action === "removeDislike") {
-      review.likes = review?.likes + 1;
-      review.likeState[likeStateIndex].state = "neutral";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
-    }
-    if (req.params.action === "likeFromDislike") {
-      review.likes = review?.likes + 2;
-      review.likeState[likeStateIndex].state = "like";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
-    }
-    if (req.params.action === "dislikeFromLike") {
-      review.likes = review?.likes - 2;
-      review.likeState[likeStateIndex].state = "dislike";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
-    }
-    if (req.params.action === "dislike") {
-      review.likes = review?.likes - 1;
-      review.likeState[likeStateIndex].state = "dislike";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
-    }
-    if (req.params.action === "like") {
-      review.likes = review?.likes + 1;
-      review.likeState[likeStateIndex].state = "like";
-      await repository.findOneAndUpdate({ _id: review._id }, review);
-    }
+
+    await repository.findOneAndUpdate({ _id: review._id }, review);
+    await userRepository.findOneAndUpdate({_id: userId}, user)
     return res
       .status(200)
       .send({ message: "Review updated successfully", data: review });
   }
-  return res.status(404).send({ message: "llegaste" });
+  return res.status(404).send({ message: "error" });
 }
 
 export {

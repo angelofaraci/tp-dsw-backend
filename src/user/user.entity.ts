@@ -8,7 +8,7 @@ class User {
         @prop({type:String}) profilePicture?:string;
         @prop({type:String}) id!:string;
         @prop({type:String, unique:true}) username!:string;
-        @prop({type:Number}) score?:number;
+        @prop({type:Number}) score!:number;
         @prop({type:String}) email!:string;
         @prop({type:String}) password!:string;
         @prop({type:String}) phone?:string;

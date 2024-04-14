@@ -6,6 +6,7 @@ import { ReviewModel } from "../review/review.entity.js";
 
 const repository = UserModel;
 
+
 //verifies inputs
 
 function sanitizeUserInput(req: Request, res: Response, next: NextFunction) {
@@ -70,6 +71,8 @@ async function getUserData(req: Request, res: Response, next: NextFunction) {
   res.locals.user = userData;
   return res.status(200).json({ userData });
 }
+
+
 
 async function getAllUsersPublicData(req: Request, res: Response) {
   const input = await repository.find();
@@ -175,6 +178,10 @@ async function deleteUser(req: Request, res: Response) {
   }
   return res.status(401).send("Something went wrong");
 }
+
+
+
+
 
 export {
   deleteUser,
