@@ -19,6 +19,6 @@ userRouter.post("/login", sanitizeUserInput, getOne);
 userRouter.get("/profile", verifyToken, getUserData);
 userRouter.get("/user/:username", getOneUserPublicData);
 userRouter.get("/getall", getAllUsersPublicData)
-userRouter.put("/levelUp", sanitizeUserInput, changeLevel);
+userRouter.put("/levelUp/:action", sanitizeUserInput, changeLevel);
 userRouter.put("/update", sanitizeUserInput, verifyToken, changeUsername);
 userRouter.delete("/:id", deleteUser);

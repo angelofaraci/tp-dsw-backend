@@ -109,9 +109,23 @@ async function changeUsername(req: Request, res: Response, next: NextFunction) {
 
 async function changeLevel(req: Request, res: Response, next: NextFunction) {
   const input = req.body.sanitizedInput;
+  let newLevel = 0
+  switch(req.params.action){
+    case 'up':
+      newLevel = input.level + 1;
+      break
+    case 'down':
+      if(input.level >= 2){
+        newLevel =  input.level - 1;
+      }
+      else return res.status(400).send({message: "Users level cannot be lower than 1"})
+      break
+    default:
+      return res.status(401).send({message: "Action not defined"})
+  }
   const user = await repository.findOneAndUpdate(
-    { email: input.email },
-    { level: input.level },
+    { id: input.id },
+    { level: newLevel },
     { new: true }
   );
   if (user) {

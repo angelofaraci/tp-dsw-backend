@@ -7,7 +7,6 @@ import { reviewRouter } from "./review/review.routes.js";
 import { gameRouter } from "./game/game.routes.js";
 import { userRouter } from "./user/user.routes.js";
 import { adminRouter } from "./admin/admin.routes.js";
-import { levelingRouter } from "./leveling/leveling.routes.js";
 import { companyRouter } from "./company/company.routes.js";
 
 const PORT = process.env.PORT ?? 3000;
@@ -30,7 +29,6 @@ app.use("/api/reviews", reviewRouter);
 app.use("/api/games", gameRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/leveling", levelingRouter);
 app.use("/api/company", companyRouter);
 
 //sever start
