@@ -39,7 +39,7 @@ test("a game can be found", async () => {
 test("a game's name can be changed", async () => {
   const updatedGame: Game = {
     name: "Sonic",
-    id: ""
+    id: idGame
   }
   await api
     .put(`/api/games/${idGame}`)
