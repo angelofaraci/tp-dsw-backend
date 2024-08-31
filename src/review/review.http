@@ -7,6 +7,13 @@ GET http://localhost:3000/api/reviews
 ### obtener una review
 GET http://localhost:3000/api/reviews/1
 
+### obtener una review para un juego
+POST http://localhost:3000/api/reviews/getreviews/game
+Content-Type: application/json
+
+{
+    "gameId": "66bfa169811598b621f157cc"
+}
 ### crear una review
 POST http://localhost:3000/api/reviews/getreviews/user
 Content-Type: application/json

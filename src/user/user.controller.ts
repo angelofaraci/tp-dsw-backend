@@ -127,7 +127,7 @@ async function changeLevel(req: Request, res: Response, next: NextFunction) {
       return res.status(401).send({message: "Action not defined"})
   }
   const user = await repository.findOneAndUpdate(
-    { id: input.id },
+    { username: input.username },
     { level: newLevel },
     { new: true }
   );
@@ -151,6 +151,7 @@ async function getOneUserPublicData(req: Request, res: Response) {
   }
   return res.status(401).send({ message: "User not found" });
 }
+
 
 //verifies token validity
 

@@ -127,13 +127,20 @@ async function remove(req: Request, res: Response) {
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
   }
+  const user = await userRepository.findOne({ _id: review.userId });
+  if (user)
+    {
+      user.score -= review.likes;
+      await userRepository.findOneAndUpdate({_id: review.userId}, user) 
+    }
+  
   return res.status(200).send({ message: "Review deleted successfully" });
 }
 
 async function updateLikes(req: Request, res: Response) {
   const review = await repository.findOne({ _id: req.params.reviewId });
   const userId = req.params.userId;
-  const user = await userRepository.findOne({ _id: userId });
+  const user = await userRepository.findOne({ _id: req.params.userId });
 
   if (review && user) {
     let likeStateIndex: any = review.likeState.findIndex(
