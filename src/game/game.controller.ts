@@ -49,6 +49,18 @@ async function findCantByDate(req: Request, res: Response) {
     });
 }
 
+//finds the games desired by rating and returns its data
+async function findCantByRating(req: Request, res: Response) {
+  const cant = +req.params.cant;
+
+  return res
+    .status(200)
+    .json({
+      data: await repository.find().limit(cant).sort({ rating: "desc" }),
+    });
+}
+
+
 //adds a game to the repository
 async function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
@@ -105,6 +117,7 @@ export {
   findAll,
   findOne,
   findCantByDate,
+  findCantByRating,
   add,
   update,
   remove,
