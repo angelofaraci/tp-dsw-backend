@@ -12,11 +12,12 @@ function sanitizeReviewInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
     id: req.body._id, //REVISAR!!!!!!!!!!!!!!
     rating: req.body.rating,
+    gameId: req.body.gameId,
     body: req.body.body,
     spoiler_check: req.body.spoiler_check,
     state: req.body.state,
     userId: req.body.userId,
-    gameId: req.body.gameId,
+
   };
   next();
 }
@@ -53,7 +54,10 @@ async function findAllForUser(req: Request, res: Response) {
   const userId: Types.ObjectId = new Types.ObjectId(req.body.userId);
   const reviews = await repository
     .find({ userId: userId })
-    .populate({ path: "userId", select: "username score email level" });
+    .populate([{ path: "userId", select: "username score email level" }, {
+      path: "gameId",
+      select: "id name cover banner",
+    },]);
   return res.status(200).json(reviews);
 }
 
@@ -61,10 +65,16 @@ async function findAllForUser(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   const id = req.params.id;
   const review =
-    (await ReviewModel.findOne({ id: id }).populate({
+    (await ReviewModel.findOne({ id: id }).populate([
+      {
+        path: "gameId",
+        select: "name cover",
+      },
+      {
       path: "userId",
       select: "username score email level",
-    })) || undefined;
+    }
+    ])) || undefined;
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
   }
@@ -110,12 +120,12 @@ async function calculateScore(req: Request, res: Response, next: NextFunction) {
   for (let i = 0; i < gameReviews.length; i++) {
     scoreAcum = scoreAcum + gameReviews[i].rating;
   }
-  const calculatedRating = scoreAcum / gameReviews.length;
+  const calculatedRating = scoreAcum / gameReviews.length | 0;
   const calculatedRatingRounded = Math.round(calculatedRating);
   const game: any = (await GameModel.findById(gameId)) || undefined;
   game.rating = calculatedRatingRounded;
   const result = (await GameModel.findByIdAndUpdate(gameId, game)) || undefined;
-
+  console.log(calculatedRating)
   next();
 }
 
