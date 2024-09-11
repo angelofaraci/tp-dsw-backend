@@ -125,7 +125,6 @@ async function calculateScore(req: Request, res: Response, next: NextFunction) {
   const game: any = (await GameModel.findById(gameId)) || undefined;
   game.rating = calculatedRatingRounded;
   const result = (await GameModel.findByIdAndUpdate(gameId, game)) || undefined;
-  console.log(calculatedRating)
   next();
 }
 
