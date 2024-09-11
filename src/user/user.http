@@ -7,7 +7,7 @@ POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-    "email":"level@gmail.com",
+    "email":"test@test",
     "password":"password"
 }
 
@@ -19,8 +19,8 @@ POST http://localhost:3000/api/user/signup
 Content-Type: application/json
 
 {
-    "username":"level",
-    "email":"level@gmail.com",
+    "username":"test",
+    "email":"test@test",
     "password":"password"
 }
 
