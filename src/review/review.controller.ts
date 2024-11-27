@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ReviewModel, Review } from "./review.entity.js";
 import { GameModel } from "../game/game.entity.js";
+import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 import { UserModel } from "../user/user.entity.js";
 
@@ -96,10 +97,9 @@ async function add(req: Request, res: Response) {
 //finds an object by id and updates by the req body
 async function update(req: Request, res: Response) {
   const input = req.body.review;
-  const userId = new Types.ObjectId(req.body.userId);
   const gameId = new Types.ObjectId(req.body.gameId);
   const review = await repository.findOneAndUpdate(
-    { userId: userId, gameId: gameId },
+    { userId: res.locals.userId, gameId: gameId },
     input
   );
   if (!review) {
@@ -110,12 +110,25 @@ async function update(req: Request, res: Response) {
     .send({ message: "Review updated successfully", data: review });
 }
 
+function verifyToken(req: Request, res: Response, next: NextFunction) {
+  if (!req.headers.authorization) {
+    return res.status(401).send("Unauthorized request");
+  }
+  const token = req.headers.authorization.split(" ")[1];
+  if (token === null) {
+    return res.status(401).send("Unauthorized request");
+  }
+  const payload: any = jwt.verify(token, "secretKey");
+  res.locals.userId = payload._id;
+  next();
+}
+
 //calculates the average score for a game
 
 async function calculateScore(req: Request, res: Response, next: NextFunction) {
   const gameId = new Types.ObjectId(req.body.gameId);
   const gameReviews: any =
-    (await ReviewModel.find({ gameId: gameId })) || undefined;
+    (await ReviewModel.find({ gameId: gameId })) ;
   let scoreAcum = 0;
   for (let i = 0; i < gameReviews.length; i++) {
     scoreAcum = scoreAcum + gameReviews[i].rating;
@@ -124,7 +137,7 @@ async function calculateScore(req: Request, res: Response, next: NextFunction) {
   const calculatedRatingRounded = Math.round(calculatedRating);
   const game: any = (await GameModel.findById(gameId)) || undefined;
   game.rating = calculatedRatingRounded;
-  const result = (await GameModel.findByIdAndUpdate(gameId, game)) || undefined;
+  const result = (await GameModel.findByIdAndUpdate(gameId, game));
   next();
 }
 
@@ -132,7 +145,7 @@ async function calculateScore(req: Request, res: Response, next: NextFunction) {
 async function remove(req: Request, res: Response) {
   const id = req.params.id;
   const review =
-    (await repository.findOneAndDelete(new Types.ObjectId(id))) || undefined;
+    (await repository.findOneAndDelete({_id: new Types.ObjectId(id), userId: res.locals.userId})) || undefined;
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
   }
@@ -216,6 +229,7 @@ export {
   add,
   update,
   remove,
+  verifyToken,
   checkIfReviewed,
   findAllForGame,
   findAllForUser,

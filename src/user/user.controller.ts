@@ -168,11 +168,36 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
+//verifies token role
+function verifyTokenRole(req: Request, res: Response, next: NextFunction) {
+  if (!req.headers.authorization) {
+    return res.status(401).send("Unauthorized request");
+  }
+  const token = req.headers.authorization.split(" ")[1];
+  if (token === null) {
+    return res.status(401).send("Unauthorized request");
+  }
+  const payload: any = jwt.verify(token, "adminKey");
+  next();
+}
+
+
+
 //delete an User by its id
 
 async function deleteUser(req: Request, res: Response) {
   const id: Types.ObjectId = new Types.ObjectId(req.params.id);
-  await ReviewModel.deleteMany({ userId: id });
+  const result = await repository.findByIdAndDelete(id);
+  if (result) {
+    return res.status(204).send("User deleted succesfully");
+  }
+  return res.status(401).send("Something went wrong");
+}
+
+//delete an User by its id
+
+async function deleteThisUser(req: Request, res: Response) {
+  const id = res.locals.userId;
   const result = await repository.findByIdAndDelete(id);
   if (result) {
     return res.status(204).send("User deleted succesfully");
@@ -181,15 +206,14 @@ async function deleteUser(req: Request, res: Response) {
 }
 
 
-
-
-
 export {
   deleteUser,
+  deleteThisUser,
   sanitizeUserInput,
   add,
   getOne,
   verifyToken,
+  verifyTokenRole,
   getUserData,
   changeLevel,
   changeUsername,

@@ -4,10 +4,12 @@ import {
   add,
   getOne,
   verifyToken,
+  verifyTokenRole,
   getUserData,
   changeLevel,
   changeUsername,
   deleteUser,
+  deleteThisUser,
   getOneUserPublicData,
   getAllUsersPublicData
 } from "./user.controller.js";
@@ -21,4 +23,5 @@ userRouter.get("/user/:username", getOneUserPublicData);
 userRouter.get("/getall", getAllUsersPublicData)
 userRouter.put("/levelUp/:action", sanitizeUserInput, changeLevel);
 userRouter.put("/update", sanitizeUserInput, verifyToken, changeUsername);
-userRouter.delete("/:id", deleteUser);
+userRouter.delete("/delete/:id", deleteUser);
+userRouter.delete("/deleteThis",verifyToken, deleteThisUser);
