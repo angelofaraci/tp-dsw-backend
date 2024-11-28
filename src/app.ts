@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
 
+import swaggerUI from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+
 import { reviewRouter } from "./review/review.routes.js";
 import { gameRouter } from "./game/game.routes.js";
 import { userRouter } from "./user/user.routes.js";
@@ -22,6 +25,7 @@ mongoose
 export const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //routers
 
