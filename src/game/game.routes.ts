@@ -113,12 +113,12 @@ gameRouter.put('/:id', sanitizeGameInput, update);
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               name:
  *                 type: string
- *               releaseDate:
+ *               description:
  *                 type: string
- *               rating:
- *                 type: number
+ *               release_date:
+ *                 type: date
  *     responses:
  *       200:
  *         description: Game updated
