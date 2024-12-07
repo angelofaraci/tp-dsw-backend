@@ -18,7 +18,6 @@ function sanitizeReviewInput(req: Request, res: Response, next: NextFunction) {
     spoiler_check: req.body.spoiler_check,
     state: req.body.state,
     userId: req.body.userId,
-
   };
   next();
 }
@@ -53,12 +52,13 @@ async function findAllForGame(req: Request, res: Response) {
 //finds all reviews for an user
 async function findAllForUser(req: Request, res: Response) {
   const userId: Types.ObjectId = new Types.ObjectId(req.body.userId);
-  const reviews = await repository
-    .find({ userId: userId })
-    .populate([{ path: "userId", select: "username score email level" }, {
+  const reviews = await repository.find({ userId: userId }).populate([
+    { path: "userId", select: "username score email level" },
+    {
       path: "gameId",
       select: "id name cover banner",
-    },]);
+    },
+  ]);
   return res.status(200).json(reviews);
 }
 
@@ -72,9 +72,9 @@ async function findOne(req: Request, res: Response) {
         select: "name cover",
       },
       {
-      path: "userId",
-      select: "username score email level",
-    }
+        path: "userId",
+        select: "username score email level",
+      },
     ])) || undefined;
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
@@ -110,6 +110,10 @@ async function update(req: Request, res: Response) {
     .send({ message: "Review updated successfully", data: review });
 }
 
+type Payload = {
+  _id: string;
+}
+
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (!req.headers.authorization) {
     return res.status(401).send("Unauthorized request");
@@ -118,7 +122,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (token === null) {
     return res.status(401).send("Unauthorized request");
   }
-  const payload: any = jwt.verify(token, "secretKey");
+  const payload= jwt.verify(token, "secretKey") as Payload;
   res.locals.userId = payload._id;
   next();
 }
@@ -127,17 +131,18 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
 async function calculateScore(req: Request, res: Response, next: NextFunction) {
   const gameId = new Types.ObjectId(req.body.gameId);
-  const gameReviews: any =
-    (await ReviewModel.find({ gameId: gameId })) ;
+  const gameReviews = await ReviewModel.find({ gameId: gameId });
   let scoreAcum = 0;
   for (let i = 0; i < gameReviews.length; i++) {
     scoreAcum = scoreAcum + gameReviews[i].rating;
   }
-  const calculatedRating = scoreAcum / gameReviews.length | 0;
+  const calculatedRating = (scoreAcum / gameReviews.length) | 0;
   const calculatedRatingRounded = Math.round(calculatedRating);
-  const game: any = (await GameModel.findById(gameId)) || undefined;
-  game.rating = calculatedRatingRounded;
-  const result = (await GameModel.findByIdAndUpdate(gameId, game));
+  const game = (await GameModel.findById(gameId)) || undefined;
+  if (game) {
+    game.rating = calculatedRatingRounded;
+  }
+  const result = await GameModel.findByIdAndUpdate(gameId, game);
   next();
 }
 
@@ -145,17 +150,19 @@ async function calculateScore(req: Request, res: Response, next: NextFunction) {
 async function remove(req: Request, res: Response) {
   const id = req.params.id;
   const review =
-    (await repository.findOneAndDelete({_id: new Types.ObjectId(id), userId: res.locals.userId})) || undefined;
+    (await repository.findOneAndDelete({
+      _id: new Types.ObjectId(id),
+      userId: res.locals.userId,
+    })) || undefined;
   if (!review) {
     return res.status(404).send({ message: "Review not found" });
   }
   const user = await userRepository.findOne({ _id: review.userId });
-  if (user)
-    {
-      user.score -= review.likes;
-      await userRepository.findOneAndUpdate({_id: review.userId}, user) 
-    }
-  
+  if (user) {
+    user.score -= review.likes;
+    await userRepository.findOneAndUpdate({ _id: review.userId }, user);
+  }
+
   return res.status(200).send({ message: "Review deleted successfully" });
 }
 
@@ -165,7 +172,7 @@ async function updateLikes(req: Request, res: Response) {
   const user = await userRepository.findOne({ _id: req.params.userId });
 
   if (review && user) {
-    let likeStateIndex: any = review.likeState.findIndex(
+    let likeStateIndex = review.likeState.findIndex(
       (state) => state.userId === userId
     );
     if (likeStateIndex === -1) {
@@ -212,7 +219,7 @@ async function updateLikes(req: Request, res: Response) {
     }
 
     await repository.findOneAndUpdate({ _id: review._id }, review);
-    await userRepository.findOneAndUpdate({_id: userId}, user)
+    await userRepository.findOneAndUpdate({ _id: userId }, user);
     return res
       .status(200)
       .send({ message: "Review updated successfully", data: review });

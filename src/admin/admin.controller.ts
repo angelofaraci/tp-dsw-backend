@@ -61,6 +61,11 @@ async function getAdminData(req: Request, res: Response, next: NextFunction) {
 
 //verifies token validity
 
+type adminPayload = {
+  _id: string;
+  class: Admin
+}
+
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (!req.headers.authorization) {
     return res.status(401).send("Unauthorized request");
@@ -69,7 +74,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (token === null) {
     return res.status(401).send("Unauthorized request");
   }
-  const payload: any = jwt.verify(token, "adminKey");
+  const payload = jwt.verify(token, "adminKey") as adminPayload;
   res.locals.adminId = payload._id;
   res.locals.adminClass = payload.class;
   res.status(200).send("Authorized");

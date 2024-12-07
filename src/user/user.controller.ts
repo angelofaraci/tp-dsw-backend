@@ -155,6 +155,10 @@ async function getOneUserPublicData(req: Request, res: Response) {
 
 //verifies token validity
 
+type Payload = {
+  _id: string;
+}
+
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (!req.headers.authorization) {
     return res.status(401).send("Unauthorized request");
@@ -163,7 +167,7 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
   if (token === null) {
     return res.status(401).send("Unauthorized request");
   }
-  const payload: any = jwt.verify(token, "secretKey");
+  const payload= jwt.verify(token, "secretKey") as Payload;
   res.locals.userId = payload._id;
   next();
 }
@@ -177,7 +181,7 @@ function verifyTokenRole(req: Request, res: Response, next: NextFunction) {
   if (token === null) {
     return res.status(401).send("Unauthorized request");
   }
-  const payload: any = jwt.verify(token, "adminKey");
+  const payload = jwt.verify(token, "adminKey");
   next();
 }
 
