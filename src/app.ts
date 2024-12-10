@@ -14,6 +14,7 @@ import { companyRouter } from "./company/company.routes.js";
 
 const PORT = process.env.PORT ?? 3000;
 const CONNECT = process.env.CONNECT ?? "mongodb://localhost/tp-database";
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:3000";
 
 //database initialization
 
@@ -41,6 +42,11 @@ app.use((_, res) => {
   return res.status(404).send({ message: "Resource not found" });
 });
 
-export const server = app.listen(PORT, () => {
-  console.log(`Server runnning on http://localhost:${PORT}/`);
-});
+if(process.env.DEV === "true") {
+  const server = app.listen(PORT, () => {
+    console.log(`Server runnning on http://localhost:${PORT}/`);
+  });
+  
+}
+
+export default app;
